@@ -7,9 +7,8 @@ let fishHealth = {
 // Event listener
 document.querySelector("#add-fish").addEventListener("click", addFish);
 document.querySelector("#remove-fish").addEventListener("click", removeFish);
-document
-  .querySelector("#clear-fish-pond")
-  .addEventListener("click", clearFishPond);
+document.querySelector("#clear-fish-pond").addEventListener("click", clearFishPond);
+document.querySelector('#pause-start').addEventListener('click', toggleAnimation);
 
 // Function to add a new fish
 function addFish() {
@@ -98,4 +97,28 @@ function clearFishPond() {
   updateFishCounter();
 
   console.log('The fish pond has been cleared. Current fish count:', fishHealth);
+}
+
+// pause and resume animation
+let isAnimationPaused = false; 
+
+function toggleAnimation() {
+    const allFish = document.querySelectorAll('.fish');
+    
+    if (isAnimationPaused) {
+       
+        allFish.forEach(fish => {
+            fish.style.animationPlayState = 'running'; 
+        });
+        document.querySelector('#pause-start').textContent = 'Pause Animation'; 
+    } else {
+        
+        allFish.forEach(fish => {
+            fish.style.animationPlayState = 'paused'; 
+        });
+        document.querySelector('#pause-start').textContent = 'Resume Animation'; 
+    }
+
+    // Toggle the state pause/start
+    isAnimationPaused = !isAnimationPaused; 
 }
