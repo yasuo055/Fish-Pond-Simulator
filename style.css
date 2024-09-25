@@ -1,0 +1,168 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+* {
+  margin: 0;
+}
+
+body {
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  font-display: swap;
+  padding-top: 12px;
+  height: 100vh;
+}
+
+h1, h2 {
+    font-family: Arial, Helvetica, sans-serif;
+    text-align: center;
+    font-size: 32px;
+}
+
+main {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 18px;
+    gap: 32px;
+}
+
+.status , .controls{
+    min-width: 300px;
+    min-height: 600px;
+    border: 2px solid black;
+}
+
+/* Pond Section */
+
+.pond {
+    background-image: url(assets/Retina/backround-image/bg1.jpg);
+    background-size: cover; 
+    background-position: center; 
+    background-repeat: no-repeat; 
+    min-width: 900px;
+    min-height: 600px;
+    border: 2px solid black;
+    position: relative;
+    overflow: hidden; /* Ensures fish don’t overflow outside the pond */
+}
+
+/* Common fish styling */
+.fish {
+    width: 50px; /* Size of the fish */
+    height: 50px;
+    background-image: url('assets/Retina/fishTile_072.png'); /* Replace with actual fish icon */
+    background-size: cover;
+    position: absolute; /* Allows free positioning within the pond */
+    animation: swim 5s infinite; /* Fish swimming animation */
+}
+
+/* Group 1 - Healthy Fish */
+.fish-group-one .fish[data-health="healthy"] {
+    filter: brightness(1.2);
+    opacity: 1;
+}
+
+/* Group 1 - Unhealthy Fish */
+.fish-group-one .fish[data-health="unhealthy"] {
+    filter: grayscale(80%);
+    opacity: 0.6;
+}
+
+/* Group 1 - Random placement */
+.fish-group-one .fish:nth-child(1) {
+    top: 20px;
+    left: 30px;
+}
+
+.fish-group-one .fish:nth-child(2) {
+    top: 100px;
+    left: 80px;
+}
+
+.fish-group-one .fish:nth-child(3) {
+    top: 150px;
+    left: 200px;
+}
+
+/* Group 2 - Healthy Fish */
+.fish-group-two .fish[data-health="healthy"] {
+    filter: brightness(1.4); /* A bit brighter for Group 2 */
+    opacity: 1;
+}
+
+/* Group 2 - Unhealthy Fish */
+.fish-group-two .fish[data-health="unhealthy"] {
+    filter: sepia(100%); /* Different color filter for unhealthy fish in Group 2 */
+    opacity: 0.7;
+}
+
+/* Group 2 - Random placement */
+.fish-group-two .fish:nth-child(1) {
+    top: 50px;
+    left: 250px;
+}
+
+.fish-group-two .fish:nth-child(2) {
+    top: 130px;
+    left: 300px;
+}
+
+.fish-group-two .fish:nth-child(3) {
+    top: 180px;
+    left: 100px;
+}
+
+/* Fish swimming animation */
+@keyframes swim {
+    0% { transform: translateX(0); }
+    50% { transform: translateX(100px); }
+    100% { transform: translateX(0); }
+}
+
+/* controls */
+
+button {
+    width: 100px;
+    height: 50px;
+    font-size: 12px;
+    color: rgb(255, 255, 255);
+    background-color: rgb(16, 155, 215);
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: rgba(16, 155, 215, 0.808);
+}
+
+.controls {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 32px;
+    padding-top: 24px;
+}
+
+.button-con {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    width: 300px;
+    padding: 12px;
+    gap: 12px;
+}
+
+.status {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 32px;
+    padding-top: 24px;
+}
