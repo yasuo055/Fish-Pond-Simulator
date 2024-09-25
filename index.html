@@ -16,22 +16,27 @@
 
             <h2>Status</h2>
 
+            <div class="fish-counter">
+                <p>healthy Fish: <span id="healthy-fish-count">0</span></p>
+                <p>unhealthy Fish: <span id="unhealthy-fish-count">0</span></p>
+            </div>
+
         </div>
 
         <div class="pond">
             <!-- Group 1 Fish -->
-        <div class="fish-group-one">
+        <!-- <div class="fish-group-one">
             <div class="fish" data-health="healthy"></div>
             <div class="fish" data-health="unhealthy"></div>
             <div class="fish" data-health="healthy"></div>
-        </div>
+        </div> -->
 
         <!-- Group 2 Fish -->
-        <div class="fish-group-two">
+        <!-- <div class="fish-group-two">
             <div class="fish" data-health="healthy"></div>
             <div class="fish" data-health="unhealthy"></div>
             <div class="fish" data-health="healthy"></div>
-        </div>
+        </div> -->
             
         </div>
         
@@ -41,8 +46,8 @@
            
             <div class="button-con">
                 <button>Feed Fish</button>
-                <button>Add Fish</button>
-                <button>Remove Fish</button>
+                <button id="add-fish">Add Fish</button>
+                <button id="remove-fish">Remove Fish</button>
                 <button>Adjust pH</button>
                 <button>Adjust Temperature</button>
                 <button>Change Water</button>
@@ -58,6 +63,45 @@
         <!-- <div class="other-info"></div> -->
 
     </main>
+
+    <div id="add-fish-modal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Fish Information</h2>
+            <form id="fish-form">
+            <label for="fish-name">Fish Name:</label>
+            <input type="text" id="fish-name" name="fish-name" required><br><br>
+            
+            <label for="fish-type">Fish Type:</label>
+            <input type="text" id="fish-type" name="fish-type" required><br><br>
+
+            <label for="fish-age">Fish Age (in months):</label>
+            <input type="text" id="fish-age" name="fish-age" required><br><br>
+
+            <label for="fish-gender">Fish Gender:</label>
+            <input type="text" id="fish-gender" name="fish-gender" required><br><br>
+
+
+            <label for="fish-icon">Fish Icon:</label><br>
+            <div id="fish-icon-selection">
+                <label>
+                    <input type="radio" name="fish-icon" value="fish-icon1" required>
+                    <img src="assets/Retina/fishTile_072.png" alt="Fish Icon 1" class="icon-option">
+                </label>
+                <label>
+                    <input type="radio" name="fish-icon" value="fish-icon2">
+                    <img src="assets/Retina/fishTile_074.png" alt="Fish Icon 2" class="icon-option">
+                </label>
+                <label>
+                    <input type="radio" name="fish-icon" value="fish-icon3">
+                    <img src="assets/Retina/fishTile_076.png" alt="Fish Icon 3" class="icon-option">
+                </label>
+            </div><br><br>
+
+            <button type="submit">Add Fish</button>
+            </form>
+        </div>
+    </div>
    
     <!-- script -->
      <script src="script.js"></script>
