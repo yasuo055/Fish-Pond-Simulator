@@ -65,30 +65,36 @@ main {
     border: 2px solid black;
     position: relative;
     overflow: hidden; /* Ensures fish don’t overflow outside the pond */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
 }
 
 .fish {
-    width: 50px; /* Size of the fish */
-    height: 50px;
+    width: 64px; /* Size of the fish */
+    height: 64px;
     background-image: url('assets/Retina/fishTile_072.png'); /* Replace with actual fish icon */
     background-size: cover;
-    position: absolute; /* Allows free positioning within the pond */
-    animation: swim 5s infinite; /* Fish swimming animation */
+    position: absolute; 
+    transform: scaleX(-1); 
+    animation: swimRight 10s linear infinite; 
 }
 
-/* Group 1 - Healthy Fish */
-.fish-group-one .fish[data-health="healthy"] {
+/* Fish swimming animation (Left to Right) */
+@keyframes swimRight {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(100vw); } /* Swim all the way to the right */
+}
+
+/* .fish-group-one .fish[data-health="healthy"] {
     filter: brightness(1.2);
     opacity: 1;
 }
 
-/* Group 1 - Unhealthy Fish */
 .fish-group-one .fish[data-health="unhealthy"] {
     filter: grayscale(80%);
     opacity: 0.6;
 }
 
-/* Group 1 - Random placement */
+
 .fish-group-one .fish:nth-child(1) {
     top: 20px;
     left: 30px;
@@ -104,19 +110,18 @@ main {
     left: 200px;
 }
 
-/* Group 2 - Healthy Fish */
+
 .fish-group-two .fish[data-health="healthy"] {
-    filter: brightness(1.4); /* A bit brighter for Group 2 */
-    opacity: 1;
+    filter: brightness(1.4); 
 }
 
-/* Group 2 - Unhealthy Fish */
+
 .fish-group-two .fish[data-health="unhealthy"] {
-    filter: sepia(100%); /* Different color filter for unhealthy fish in Group 2 */
+    filter: sepia(100%); 
     opacity: 0.7;
 }
 
-/* Group 2 - Random placement */
+
 .fish-group-two .fish:nth-child(1) {
     top: 50px;
     left: 250px;
@@ -130,14 +135,8 @@ main {
 .fish-group-two .fish:nth-child(3) {
     top: 180px;
     left: 100px;
-}
+} */
 
-/* Fish swimming animation */
-@keyframes swim {
-    0% { transform: translateX(0); }
-    50% { transform: translateX(100px); }
-    100% { transform: translateX(0); }
-}
 
 /* controls */
 
