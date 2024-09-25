@@ -50,6 +50,35 @@ function fishStatus() {
 updateFishCounter();
 
 
+//remove Fish
+function removeFish() {
+
+    const pond = document.querySelector('.pond');
+
+    const fishArray = pond.getElementsByClassName('fish');
+
+    if (fishArray.length > 0) {
+        //get the last fish
+        const fishToRemove = fishArray[fishArray.length - 1];
+
+        // check the health status of the fish to update counts
+        if (fishToRemove.dataset.health === 'healthy') {
+            fishHealth.healthyFish -= 1; //remove the health fish
+        } else {
+            fishHealth.unhealthyFish -= 1; //remove the unhealthy fish
+        }
+
+        //remove the fish from the pond
+        pond.removeChild(fishToRemove);
+
+        //update the fish counter
+        updateFishCounter();
+
+        console.log('Fish removed! Current fish count:', fishHealth);
+    } else {
+        console.log('No fish to remove.');
+    }
+}
 
 
 
