@@ -196,7 +196,7 @@ button:hover {
   }
   
 
-/* Styling for the fish icons */
+/* Styling for the fish icons inside of the modal */
 #fish-icon-selection {
     display: flex;
     gap: 20px;
