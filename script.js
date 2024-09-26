@@ -146,7 +146,21 @@ function checkWaterParameters() {
     console.log(`The Dissolve Oxygen Level is normal:`, waterParameters.getOxygenLevel(), 'mg/L, for the last 10 seconds');
   }
 
- 
+  // Check ammonia level [need to fix]
+  // if (ammoniaLevel >= waterThresholds.ammonia.dangerous) {
+  //   fishElements.forEach((fish) => {
+  //     fish.style.opacity = 0; // Fish disappear
+  //     // Remove fish from the DOM
+  //     fish.remove();
+  //     // Decrease the healthy fish count
+  //     fishHealth.healthyFish--;
+  //     console.log("A fish has died due to dangerously high ammonia levels!"); // Log message
+  //   });
+  //   console.log("Ammonia levels are dangerously high! Fish are dying!");
+  // }else {
+  //   fishElements.forEach((fish) => (fish.style.filter = "none"));
+  //   console.log(`The Ammonia Level is normal:`, waterParameters.getAmmoniaLevel(), 'mg/L, for the last 10 seconds');
+  // }
 
   // Update the fish counter display
   updateFishCounter();
