@@ -1,4 +1,3 @@
-// Define fishHealth at the top of your script so all functions can access it
 let fishHealth = {
   healthyFish: 0, // Start with 0 healthy fish
   unhealthyFish: 0, // Start with 0 unhealthy fish
@@ -42,6 +41,12 @@ function updateWaterParameters() {
   document.querySelector("#ph-value").textContent = `${pHLevel}`;
   document.querySelector("#oxygen-value").textContent = `${oxygenLevel} mg/L`;
   document.querySelector("#ammonia-value").textContent = `${ammoniaLevel} ppm`;
+
+  // console.log(temperature);
+
+  return function() {
+    return temperature;
+  };
 }
 
 // Call the update function initially
@@ -59,6 +64,7 @@ const waterThresholds = {
 // Function to check water conditions and apply effects on fish
 function checkWaterParameters() {
   const fishElements = document.querySelectorAll(".fish");
+  let temperature = updateWaterParameters();
 
   // Check temperature
   if (temperature > waterThresholds.temp.critical) {
@@ -78,6 +84,8 @@ function checkWaterParameters() {
   } else {
     // Fish are healthy
     fishElements.forEach((fish) => (fish.style.filter = "none"));
+    console.log(`The temperature is normal:`, temperature(), ', for the last 10 seconds');
+
   }
   
   // Check pH level
@@ -130,9 +138,6 @@ function checkWaterParameters() {
       console.log("A fish has died due to dangerously high ammonia levels!"); // Log message
     });
     console.log("Ammonia levels are dangerously high! Fish are dying!");
-  } else {(ammoniaLevel <= waterThresholds.ammonia.warning)
-    fishElements.forEach((fish) => (fish.style.filter = "grayscale(50%)"));
-    console.log('the fish is in the warning because of ammonia becomes a little to high');
   }
 
   // Update the fish counter display
@@ -140,7 +145,7 @@ function checkWaterParameters() {
 }
 
 // Call this function periodically to simulate the environment
-setInterval(checkWaterParameters, 1000); // Every 10 seconds check the water
+setInterval(checkWaterParameters, 10000); // Every 10 seconds check the water
 
 // Function to add a new fish
 function addFish() {
@@ -162,7 +167,7 @@ function addFish() {
   updateFishCounter();
 
   console.log("Fish added! Current fish count:", fishHealth.healthyFish);
-  console.log("Current fish count:", fishHealth.unhealthyFish);
+  // console.log("Current fish count:", fishHealth.unhealthyFish);
 }
 
 // fish counter
