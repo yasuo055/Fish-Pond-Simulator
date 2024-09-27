@@ -35,7 +35,7 @@ function updateWaterParameters() {
   const temperature = (Math.random() * (35 - 20) + 20).toFixed(1); // Random temperature between 20°C and 28°C
   const pHLevel = (Math.random() * (8.0 - 6.0) + 6).toFixed(1); // Random pH level between 6.0 and 8.0
   const oxygenLevel = (Math.random() * (10 - 2) + 3).toFixed(1); // Random oxygen level between 5 mg/L and 10 mg/L
-  const ammoniaLevel = (Math.random() * (0.25 - 0.0) + 0).toFixed(2);
+  const ammoniaLevel = (Math.random() * (0.30 - 0.0) + 0).toFixed(2);
 
   document.querySelector("#temp-value").textContent = `${temperature}°C`;
   document.querySelector("#ph-value").textContent = `${pHLevel}`;
@@ -66,19 +66,48 @@ updateWaterParameters();
 setInterval(updateWaterParameters, 10000); // Update every 10 seconds
 
 const waterThresholds = {
-  temp: { normalMin: 20, normalMax: 28, high: 28, critical: 35 },
-  ph: { normalMin: 6.5, normalMax: 7.5, high: 8.0, low: 6.0 },
-  oxygen: { normalMin: 5, low: 2, high: 10 }, // Dissolved oxygen too low can kill fish
-  ammonia: { safe: 0, low: 0.1, high: 0.25 },
+  temp: { high: 28, critical: 35 }, // delete normalMax
+  ph: { high: 8.0, low: 6.0 },  //delete normalMax and normalMin
+  oxygen: { high: 10, low: 2 }, // Dissolved oxygen too low can kill fish [delete normalMin]
+  ammonia: { normal: 0, low: 0.1, high: 0.25 },
 };
 
+
+// Centralized fish effect handler
+const fishEffects = {
+  remove: (fishElements) => {
+    fishElements.forEach(fish => {
+      fish.style.opacity = 0;
+      fish.remove();
+      fishHealth.healthyFish--;
+    });
+  },
+  unhealthy: (fishElements, filter = "grayscale(80%)") => {
+    fishElements.forEach(fish => fish.style.filter = filter);
+  },
+  healthy: (fishElements) => {
+    fishElements.forEach(fish => fish.style.filter = "none");
+  }
+};
+
+// Centralized logger for water conditions
+function logWaterCondition(param, level, unit = '') {
+  console.log(`${param} level is ${level} ${unit}`);
+}
 
 // Helper function to determine the condition for each parameter
 function getCondition(value, thresholds) {
   if (value >= thresholds.critical) return 'critical';
   if (value >= thresholds.high) return 'high';
-  if (value < thresholds.low) return 'low';
+  if (value <= thresholds.low) return 'low';
   return 'normal';
+}
+
+// For ammonia specifically:
+function getAmmoniaCondition(value, thresholds) {
+  if (value >= thresholds.high) return 'high';  // Dangerous
+  if (value >= thresholds.low) return 'low';    // Warning zone
+  if (value === thresholds.normal) return 'normal'; // Normal
 }
 
 // Function to check water conditions and apply effects on fish
@@ -91,80 +120,65 @@ function checkWaterParameters() {
   const oxygenLevel = waterParameters.getOxygenLevel();
   const ammoniaLevel = waterParameters.getAmmoniaLevel();
 
-  // Function to remove fish (used in multiple cases)
-  const removeFish = (fishElements) => {
-    fishElements.forEach((fish) => {
-      fish.style.opacity = 0;
-      fish.remove();
-      fishHealth.healthyFish--;
-    });
-  };
-
   // Check temperature condition
   switch (getCondition(temperature, waterThresholds.temp)) {
     case 'critical':
-      removeFish(fishElements);
-      console.log('The temperature is too high!', temperature, '°C');
-      console.log("Temperature is at the critical level! Fish are dying!");
+      fishEffects.remove(fishElements);
+      logWaterCondition('Temperature', 'too high', `${temperature}°C`);
+      console.log("Fish are dying because the temperature is at a critical level!");
       break;
     case 'high':
-      fishElements.forEach((fish) => (fish.style.filter = "grayscale(80%)"));
-      console.log("The temperature is high! Fish are becoming unhealthy!", temperature, '°C');
+      fishEffects.unhealthy(fishElements);
+      logWaterCondition('Temperature', 'high', `${temperature}°C`);
       break;
     case 'normal':
-      fishElements.forEach((fish) => (fish.style.filter = "none"));
-      console.log(`The temperature is normal:`, temperature, '°C, for the last 10 seconds');
+      fishEffects.healthy(fishElements);
+      logWaterCondition('Temperature', 'normal', `${temperature}°C`);
       break;
   }
 
   // Check pH condition
-  switch (getCondition(pHLevel, waterThresholds.ph)) {
-    case 'low':
-    case 'high':
-      removeFish(fishElements);
-      console.log("A fish has died due to an abnormal pH Level!");
-      break;
-    case 'normal':
-      fishElements.forEach((fish) => (fish.style.filter = "none"));
-      console.log(`The pH Level is normal:`, pHLevel, ', for the last 10 seconds');
-      break;
+  const pHCondition = getCondition(pHLevel, waterThresholds.ph);
+  if (pHCondition === 'low' || pHCondition === 'high') {
+    fishEffects.remove(fishElements);
+    logWaterCondition('pH Level', 'abnormal', '');
+    console.log("Fish are dying due to an abnormal pH Level!");
+  } else {
+    fishEffects.healthy(fishElements);
+    logWaterCondition('pH Level', 'normal', pHLevel);
   }
 
   // Check oxygen condition
-  switch (getCondition(oxygenLevel, waterThresholds.oxygen)) {
-    case 'low':
-      removeFish(fishElements);
-      console.log("Fish has died due to low oxygen levels! Fish are struggling to breathe!");
-      break;
-    case 'high':
-      removeFish(fishElements);
-      console.log('The fish is dying because of high oxygen levels!');
-      break;
-    case 'normal':
-      fishElements.forEach((fish) => (fish.style.filter = "none"));
-      console.log(`The Dissolved Oxygen Level is normal:`, oxygenLevel, 'mg/L, for the last 10 seconds');
-      break;
+  const oxygenCondition = getCondition(oxygenLevel, waterThresholds.oxygen);
+  if (oxygenCondition === 'low' || oxygenCondition === 'high') {
+    fishEffects.remove(fishElements);
+    logWaterCondition('Oxygen Level', 'abnormal', `${oxygenLevel} mg/L`);
+    console.log("Fish are dying due to abnormal oxygen levels!");
+  } else {
+    fishEffects.healthy(fishElements);
+    logWaterCondition('Oxygen Level', 'normal', `${oxygenLevel} mg/L`);
   }
 
   // Check ammonia condition
-  switch (getCondition(ammoniaLevel, waterThresholds.ammonia)) {
+  switch (getAmmoniaCondition(ammoniaLevel, waterThresholds.ammonia)) {
     case 'high':
-      removeFish(fishElements);
-      console.log("A fish has died due to dangerously high ammonia levels!,  Ammonia Level:", ammoniaLevel, 'mg/L');
-      // console.log("Ammonia levels are dangerously high! Fish are dying!");
+      fishEffects.remove(fishElements);
+      logWaterCondition('Ammonia Level', 'dangerously high', `${ammoniaLevel} mg/L`);
+      console.log("Fish are dying due to dangerously high ammonia levels!");
       break;
     case 'low':
-      console.log("The Ammonia level is in the warning zone!, Ammonia Level:", ammoniaLevel, 'mg/L');
+      logWaterCondition('Ammonia Level', 'in the warning zone', `${ammoniaLevel} mg/L`);
       break;
     case 'normal':
-      fishElements.forEach((fish) => (fish.style.filter = "none"));
-      console.log(`The Ammonia Level is normal:`, ammoniaLevel, 'mg/L, for the last 10 seconds');
+      fishEffects.healthy(fishElements);
+      logWaterCondition('Ammonia Level', 'normal', `${ammoniaLevel} mg/L`);
       break;
-  }
+  } 
 
   // Update the fish counter display
   updateFishCounter();
 }
+
 
 // Call this function periodically to simulate the environment
 setInterval(checkWaterParameters, 10000); // Every 10 seconds check the water
