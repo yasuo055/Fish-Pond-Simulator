@@ -12,8 +12,17 @@ document
 document
   .querySelector("#pause-start")
   .addEventListener("click", toggleAnimation);
+// Event listener for adding fish with user-defined amount
 document.querySelector("#add-fish").addEventListener("click", function() {
-  const fishCount = parseInt(document.querySelector("#fish-count-input").value) || 1;
+  const fishCount = parseInt(document.querySelector("#fish-count-input").value);
+
+  // Validation: Check if the input is empty, not a number, or less than 1
+  if (isNaN(fishCount) || fishCount <= 0) {
+    console.log("Please enter a valid number greater than 0.");
+    alert("Please enter a valid number greater than 0 or input a number.");
+    return; 
+  }
+
   addFish(fishCount);
 });
 
@@ -254,7 +263,6 @@ function createFish() {
   // Update fish health count
   fishHealth.healthyFish += 1;
 }
-
 
 
 // fish counter
