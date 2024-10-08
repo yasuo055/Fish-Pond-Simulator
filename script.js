@@ -6,12 +6,12 @@ let fishHealth = {
 // Event listener
 document.querySelector("#add-fish").addEventListener("click", addFish);
 document.querySelector("#remove-fish").addEventListener("click", removeFish);
-document
-  .querySelector("#clear-fish-pond")
-  .addEventListener("click", clearFishPond);
-document
-  .querySelector("#pause-start")
-  .addEventListener("click", toggleAnimation);
+// document
+//   .querySelector("#clear-fish-pond")
+//   .addEventListener("click", clearFishPond);
+// document
+//   .querySelector("#pause-start")
+//   .addEventListener("click", toggleAnimation);
 // Event listener for adding fish with user-defined amount
 document.querySelector("#add-fish").addEventListener("click", function() {
   const fishCount = parseInt(document.querySelector("#fish-count-input").value);
@@ -316,44 +316,44 @@ function removeFish() {
   }
 }
 
-function clearFishPond() {
-  const pond = document.querySelector(".pond");
+// function clearFishPond() {
+//   const pond = document.querySelector(".pond");
 
-  while (pond.firstChild) {
-    pond.removeChild(pond.firstChild);
-  }
+//   while (pond.firstChild) {
+//     pond.removeChild(pond.firstChild);
+//   }
 
-  //reset fish health counts
-  fishHealth.healthyFish = 0;
-  fishHealth.unhealthyFish = 0;
+//   //reset fish health counts
+//   fishHealth.healthyFish = 0;
+//   fishHealth.unhealthyFish = 0;
 
-  // update the fish counter
-  updateFishCounter();
+//   // update the fish counter
+//   updateFishCounter();
 
-  console.log(
-    "The fish pond has been cleared. Current fish count:",
-    fishHealth
-  );
-}
+//   console.log(
+//     "The fish pond has been cleared. Current fish count:",
+//     fishHealth
+//   );
+// }
 
-// pause and resume animation
-let isAnimationPaused = false;
+// // pause and resume animation
+// let isAnimationPaused = false;
 
-function toggleAnimation() {
-  const allFish = document.querySelectorAll(".fish");
+// function toggleAnimation() {
+//   const allFish = document.querySelectorAll(".fish");
 
-  if (isAnimationPaused) {
-    allFish.forEach((fish) => {
-      fish.style.animationPlayState = "running";
-    });
-    document.querySelector("#pause-start").textContent = "Pause Animation";
-  } else {
-    allFish.forEach((fish) => {
-      fish.style.animationPlayState = "paused";
-    });
-    document.querySelector("#pause-start").textContent = "Resume Animation";
-  }
+//   if (isAnimationPaused) {
+//     allFish.forEach((fish) => {
+//       fish.style.animationPlayState = "running";
+//     });
+//     document.querySelector("#pause-start").textContent = "Pause Animation";
+//   } else {
+//     allFish.forEach((fish) => {
+//       fish.style.animationPlayState = "paused";
+//     });
+//     document.querySelector("#pause-start").textContent = "Resume Animation";
+//   }
 
-  // Toggle the state pause/start
-  isAnimationPaused = !isAnimationPaused;
-}
+//   // Toggle the state pause/start
+//   isAnimationPaused = !isAnimationPaused;
+// }
