@@ -16,10 +16,13 @@ body {
   height: 100vh;
 }
 
-h1, h2 {
+h1, h2, h3, h4{
     font-family: Arial, Helvetica, sans-serif;
-    text-align: center;
+}
+
+h1, h2{
     font-size: 32px;
+    text-align: center; 
 }
 
 main {
@@ -181,6 +184,20 @@ button:hover {
     gap: 12px;
 }
 
+.water-param {
+    display: flex;
+    flex-direction: column;
+}
+
+.param-con {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    width: 200px;
+    padding: 12px;
+    gap: 12px;
+}
 
 /* modal */
 
