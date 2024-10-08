@@ -26,6 +26,60 @@ document.querySelector("#add-fish").addEventListener("click", function() {
   addFish(fishCount);
 });
 
+//for water parameters
+let userOverrides = {
+  temperature: null,
+  pHLevel: null,
+  oxygenLevel: null,
+  ammoniaLevel: null
+};
+
+// Get DOM elements for sliders
+const tempSlider = document.querySelector("#temp-slider");
+const phSlider = document.querySelector("#ph-slider");
+const oxygenSlider = document.querySelector("#oxygen-slider");
+const ammoniaSlider = document.querySelector("#ammonia-slider");
+
+// Event listeners to capture user input and override water parameters
+tempSlider.addEventListener("input", (event) => {
+  const value = parseFloat(event.target.value);
+  userOverrides.temperature = value;
+  document.querySelector("#temp-value").textContent = `${value}°C`;
+});
+
+phSlider.addEventListener("input", (event) => {
+  const value = parseFloat(event.target.value);
+  userOverrides.pHLevel = value;
+  document.querySelector("#ph-value").textContent = `${value}`;
+});
+
+oxygenSlider.addEventListener("input", (event) => {
+  const value = parseFloat(event.target.value);
+  userOverrides.oxygenLevel = value;
+  document.querySelector("#oxygen-value").textContent = `${value} mg/L`;
+});
+
+ammoniaSlider.addEventListener("input", (event) => {
+  const value = parseFloat(event.target.value);
+  userOverrides.ammoniaLevel = value;
+  document.querySelector("#ammonia-value").textContent = `${value} ppm`;
+});
+
+// Update water parameters function with user overrides
+function updateWaterParameters() {
+  const temperature = userOverrides.temperature !== null ? userOverrides.temperature : (Math.random() * (35 - 20) + 20).toFixed(1);
+  const pHLevel = userOverrides.pHLevel !== null ? userOverrides.pHLevel : (Math.random() * (8.0 - 6.0) + 6).toFixed(1);
+  const oxygenLevel = userOverrides.oxygenLevel !== null ? userOverrides.oxygenLevel : (Math.random() * (10 - 2) + 3).toFixed(1);
+  const ammoniaLevel = userOverrides.ammoniaLevel !== null ? userOverrides.ammoniaLevel : (Math.random() * (0.30 - 0.0) + 0).toFixed(2);
+
+  document.querySelector("#temp-value").textContent = `${temperature}°C`;
+  document.querySelector("#ph-value").textContent = `${pHLevel}`;
+  document.querySelector("#oxygen-value").textContent = `${oxygenLevel} mg/L`;
+  document.querySelector("#ammonia-value").textContent = `${ammoniaLevel} ppm`;
+
+  return { temperature, pHLevel, oxygenLevel, ammoniaLevel };
+}
+
 
 // Global variables for water parameters [abnormal]
 // let temperature = 35; // Default temperature
