@@ -17,9 +17,11 @@
             <h2>Status</h2>
 
             <div class="fish-counter">
-                <h3>Fish Status</h3>
+                <h3>Fish Counter</h3>
+                <P>Max Fish: <span id="fish-max-count">0</span></P>
                 <p>Healthy Fish: <span id="healthy-fish-count">0</span></p>
                 <p>Unhealthy Fish: <span id="unhealthy-fish-count">0</span></p><br>
+               
                 <h3>Water Parameters</h3>
                 <p>Temperature: <span id="temp-value">25°C</span></p>
                 <p>pH Level: <span id="ph-value">7.0</span></p>
@@ -35,8 +37,10 @@
         <h2>Controls</h2>
            
             <div class="button-con">
-                <button>Feed Fish</button>
+                
+                <input type="number" id="fish-count-input" placeholder="Enter number of fish" min="1" value="1">
                 <button id="add-fish">Add Fish</button>
+                <button>Feed Fish</button>
                 <button id="remove-fish">Remove Fish</button>
                 <button>Adjust pH</button>
                 <button>Adjust Temperature</button>
