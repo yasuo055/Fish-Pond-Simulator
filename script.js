@@ -224,16 +224,16 @@ function addFish(fishCount) {
       for (let i = 0; i < fishToAdd; i++) {
         createFish();
       }
-      console.log(`${fishToAdd} fish added! Maximum of ${maxFishCount} fish reached.`);
+      alert(`${fishToAdd} fish added! Maximum of ${maxFishCount} fish reached.`);
     } else {
-      console.log(`Cannot add more fish. Maximum limit of ${maxFishCount} fish reached.`);
+      alert(`Cannot add more fish. Maximum limit of ${maxFishCount} fish reached.`);
     }
   } else {
     // Add fish normally if the limit isn't exceeded
     for (let i = 0; i < fishCount; i++) {
       createFish();
     }
-    console.log(`${fishCount} fish added! Current fish count:`, fishHealth.healthyFish);
+    alert(`${fishCount} fish added! Current fish count: ${fishHealth.healthyFish}`);
   }
   updateFishCounter();
 }
