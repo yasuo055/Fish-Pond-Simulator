@@ -12,6 +12,11 @@ document
 document
   .querySelector("#pause-start")
   .addEventListener("click", toggleAnimation);
+document.querySelector("#add-fish").addEventListener("click", function() {
+  const fishCount = parseInt(document.querySelector("#fish-count-input").value) || 1;
+  addFish(fishCount);
+});
+
 
 // Global variables for water parameters [abnormal]
 // let temperature = 35; // Default temperature
@@ -26,7 +31,7 @@ document
 // let ammoniaLevel = 0; // Default ammonia level
 
 let temperature, pHLevel, oxygenLevel, ammoniaLevel;
-
+const maxFishCount = 30;
 
 // initialized of water parameters
 
@@ -183,9 +188,58 @@ function checkWaterParameters() {
 // Call this function periodically to simulate the environment
 setInterval(checkWaterParameters, 10000); // Every 10 seconds check the water
 
-// Function to add a new fish
-function addFish() {
-  // Create a new fish element
+// // Updated addFish function to accept a quantity parameter
+// function addFish(fishCount) {
+//   for (let i = 0; i < fishCount; i++) {
+//     // Create a new fish element
+//     let newFish = document.createElement("div");
+//     newFish.classList.add("fish");
+//     newFish.dataset.health = "healthy"; // Set the fish as healthy initially
+
+//     // Randomly position the fish in the pond
+//     newFish.style.top = Math.random() * 80 + "%"; // Random vertical position
+//     newFish.style.left = Math.random() * 90 + "%"; // Random horizontal position
+
+//     // Add the new fish to the pond
+//     document.querySelector(".pond").appendChild(newFish);
+
+//     // Update fish health count
+//     fishHealth.healthyFish += 1;
+//   }
+
+//   updateFishCounter();
+
+//   console.log(`${fishCount} fish added! Current fish count:`, fishHealth.healthyFish);
+// }
+
+// Updated addFish function to include a fish limit
+function addFish(fishCount) {
+  // Check if adding the new fish will exceed the limit
+  const currentFishCount = fishHealth.healthyFish + fishHealth.unhealthyFish;
+  
+  if (currentFishCount + fishCount > maxFishCount) {
+    const fishToAdd = maxFishCount - currentFishCount;
+    if (fishToAdd > 0) {
+      // Only add fish up to the limit
+      for (let i = 0; i < fishToAdd; i++) {
+        createFish();
+      }
+      console.log(`${fishToAdd} fish added! Maximum of ${maxFishCount} fish reached.`);
+    } else {
+      console.log(`Cannot add more fish. Maximum limit of ${maxFishCount} fish reached.`);
+    }
+  } else {
+    // Add fish normally if the limit isn't exceeded
+    for (let i = 0; i < fishCount; i++) {
+      createFish();
+    }
+    console.log(`${fishCount} fish added! Current fish count:`, fishHealth.healthyFish);
+  }
+  updateFishCounter();
+}
+
+// Function to create a new fish element
+function createFish() {
   let newFish = document.createElement("div");
   newFish.classList.add("fish");
   newFish.dataset.health = "healthy"; // Set the fish as healthy initially
@@ -199,12 +253,9 @@ function addFish() {
 
   // Update fish health count
   fishHealth.healthyFish += 1;
-
-  updateFishCounter();
-
-  console.log("Fish added! Current fish count:", fishHealth.healthyFish);
-  // console.log("Current fish count:", fishHealth.unhealthyFish);
 }
+
+
 
 // fish counter
 function updateFishCounter() {
@@ -212,6 +263,8 @@ function updateFishCounter() {
     fishHealth.healthyFish;
   document.querySelector("#unhealthy-fish-count").textContent =
     fishHealth.unhealthyFish;
+    document.querySelector("#fish-max-count").textContent =
+    maxFishCount;
 }
 
 function fishStatus() {
