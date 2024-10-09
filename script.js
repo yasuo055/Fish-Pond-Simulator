@@ -40,32 +40,40 @@ const phSlider = document.querySelector("#ph-slider");
 const oxygenSlider = document.querySelector("#oxygen-slider");
 const ammoniaSlider = document.querySelector("#ammonia-slider");
 
+//init for water param
+let temperature, pHLevel, oxygenLevel, ammoniaLevel;
+const maxFishCount = 30;
+
 // Event listeners to capture user input and override water parameters
-document.getElementById("temp-slider").addEventListener("input", (e) => {
-  let temperature = e.target.value;
-  // Update both elements with the new temperature value
+tempSlider.addEventListener("input", (e) => {
+  const temperature = e.target.value;
+  userOverrides.temperature = temperature; // Update user override
   updateTemperatureDisplay(temperature);
+  updateWaterParameters(); // Update water parameters immediately
 });
 
 phSlider.addEventListener("input", (event) => {
   const value = parseFloat(event.target.value);
   userOverrides.pHLevel = value;
-  updatePHDisplay(value); 
+  updatePHDisplay(value);
+  updateWaterParameters(); // Update water parameters immediately
 });
 
 oxygenSlider.addEventListener("input", (event) => {
   const value = parseFloat(event.target.value);
   userOverrides.oxygenLevel = value;
-  updateOxygenDisplay(value); 
+  updateOxygenDisplay(value);
+  updateWaterParameters(); // Update water parameters immediately
 });
 
 ammoniaSlider.addEventListener("input", (event) => {
   const value = parseFloat(event.target.value);
   userOverrides.ammoniaLevel = value;
-  updateAmmoniaDisplay(value); 
+  updateAmmoniaDisplay(value);
+  updateWaterParameters(); // Update water parameters immediately
 });
 
-//to Update both elements at once
+// Function to update temperature display
 function updateTemperatureDisplay(value) {
   document.getElementById("temp-display").textContent = `${value}°C`;
   document.getElementById("temp-value").textContent = `${value}°C`;
@@ -87,46 +95,18 @@ function updateAmmoniaDisplay(value) {
   document.querySelector("#ammonia-value").textContent = `${value} ppm`;
 }
 
-
-// Update water parameters function with user overrides
+// Function to update water parameters with user overrides or random values and initialized of water parameters
 function updateWaterParameters() {
   const temperature = userOverrides.temperature !== null ? userOverrides.temperature : (Math.random() * (35 - 20) + 20).toFixed(1);
   const pHLevel = userOverrides.pHLevel !== null ? userOverrides.pHLevel : (Math.random() * (8.0 - 6.0) + 6).toFixed(1);
   const oxygenLevel = userOverrides.oxygenLevel !== null ? userOverrides.oxygenLevel : (Math.random() * (10 - 2) + 3).toFixed(1);
   const ammoniaLevel = userOverrides.ammoniaLevel !== null ? userOverrides.ammoniaLevel : (Math.random() * (0.30 - 0.0) + 0).toFixed(2);
 
-  document.querySelector("#temp-value").textContent = `${temperature}°C`;
-  document.querySelector("#ph-value").textContent = `${pHLevel}`;
-  document.querySelector("#oxygen-value").textContent = `${oxygenLevel} mg/L`;
-  document.querySelector("#ammonia-value").textContent = `${ammoniaLevel} ppm`;
-
-  return { temperature, pHLevel, oxygenLevel, ammoniaLevel };
-}
-
-
-// Global variables for water parameters [abnormal]
-// let temperature = 35; // Default temperature
-// let pHLevel = 8.2;    // Default pH level
-// let oxygenLevel = 10.5;   // Default oxygen level
-// let ammoniaLevel = 3;  // Default ammonia level
-
-// Global variables for water parameters [normal]
-// let temperature = 25; // Default temperature
-// let pHLevel = 8.0; // Default pH level
-// let oxygenLevel = 5; // Default oxygen level
-// let ammoniaLevel = 0; // Default ammonia level
-
-let temperature, pHLevel, oxygenLevel, ammoniaLevel;
-const maxFishCount = 30;
-
-// initialized of water parameters
-
-function updateWaterParameters() {
-  // Randomly generate water parameters for demonstration
-  const temperature = (Math.random() * (35 - 20) + 20).toFixed(1); // Random temperature between 20°C and 28°C
-  const pHLevel = (Math.random() * (8.0 - 6.0) + 6).toFixed(1); // Random pH level between 6.0 and 8.0
-  const oxygenLevel = (Math.random() * (10 - 2) + 3).toFixed(1); // Random oxygen level between 5 mg/L and 10 mg/L
-  const ammoniaLevel = (Math.random() * (0.30 - 0.0) + 0).toFixed(2);
+  // Update displayed values
+  updateTemperatureDisplay(temperature);
+  updatePHDisplay(pHLevel);
+  updateOxygenDisplay(oxygenLevel);
+  updateAmmoniaDisplay(ammoniaLevel);
 
   document.querySelector("#temp-value").textContent = `${temperature}°C`;
   document.querySelector("#ph-value").textContent = `${pHLevel}`;
@@ -148,8 +128,55 @@ function updateWaterParameters() {
       return ammoniaLevel;
     }
   };
-
 }
+
+// Global variables for water parameters [abnormal]
+// let temperature = 35; // Default temperature
+// let pHLevel = 8.2;    // Default pH level
+// let oxygenLevel = 10.5;   // Default oxygen level
+// let ammoniaLevel = 3;  // Default ammonia level
+
+// Global variables for water parameters [normal]
+// let temperature = 25; // Default temperature
+// let pHLevel = 8.0; // Default pH level
+// let oxygenLevel = 5; // Default oxygen level
+// let ammoniaLevel = 0; // Default ammonia level
+
+
+
+
+// function updateWaterParameters() {
+//   // Randomly generate water parameters for demonstration
+//   const temperature = (Math.random() * (35 - 20) + 20).toFixed(1); // Random temperature between 20°C and 28°C
+//   const pHLevel = (Math.random() * (8.0 - 6.0) + 6).toFixed(1); // Random pH level between 6.0 and 8.0
+//   const oxygenLevel = (Math.random() * (10 - 2) + 3).toFixed(1); // Random oxygen level between 5 mg/L and 10 mg/L
+//   const ammoniaLevel = (Math.random() * (0.30 - 0.0) + 0).toFixed(2);
+
+//   document.querySelector("#temp-value").textContent = `${temperature}°C`;
+//   document.querySelector("#ph-value").textContent = `${pHLevel}`;
+//   document.querySelector("#oxygen-value").textContent = `${oxygenLevel} mg/L`;
+//   document.querySelector("#ammonia-value").textContent = `${ammoniaLevel} ppm`;
+
+//   // for slider
+//   document.getElementById("temp-display").textContent = `${value}°C`;
+
+//    // Return an object of functions (closures) for accessing each parameter
+//    return {
+//     getTemperature: function() {
+//       return temperature;
+//     },
+//     getPHLevel: function() {
+//       return pHLevel;
+//     },
+//     getOxygenLevel: function() {
+//       return oxygenLevel;
+//     },
+//     getAmmoniaLevel: function() {
+//       return ammoniaLevel;
+//     }
+//   };
+
+// }
 
 // Call the update function initially
 updateWaterParameters();
@@ -267,6 +294,7 @@ function checkWaterParameters() {
 
   // Update the fish counter display
   updateFishCounter();
+  
 }
 
 
