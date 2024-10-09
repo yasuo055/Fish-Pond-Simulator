@@ -25,6 +25,8 @@ h1, h2{
     text-align: center; 
 }
 
+
+
 main {
     display: flex;
     justify-content: space-between;
@@ -197,6 +199,10 @@ button:hover {
     width: 200px;
     padding: 12px;
     gap: 12px;
+}
+
+label {
+    font-size: 14px;
 }
 
 /* modal */
