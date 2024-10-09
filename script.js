@@ -41,29 +41,52 @@ const oxygenSlider = document.querySelector("#oxygen-slider");
 const ammoniaSlider = document.querySelector("#ammonia-slider");
 
 // Event listeners to capture user input and override water parameters
-tempSlider.addEventListener("input", (event) => {
-  const value = parseFloat(event.target.value);
-  userOverrides.temperature = value;
-  document.querySelector("#temp-value").textContent = `${value}°C`;
+document.getElementById("temp-slider").addEventListener("input", (e) => {
+  let temperature = e.target.value;
+  // Update both elements with the new temperature value
+  updateTemperatureDisplay(temperature);
 });
 
 phSlider.addEventListener("input", (event) => {
   const value = parseFloat(event.target.value);
   userOverrides.pHLevel = value;
-  document.querySelector("#ph-value").textContent = `${value}`;
+  updatePHDisplay(value); 
 });
 
 oxygenSlider.addEventListener("input", (event) => {
   const value = parseFloat(event.target.value);
   userOverrides.oxygenLevel = value;
-  document.querySelector("#oxygen-value").textContent = `${value} mg/L`;
+  updateOxygenDisplay(value); 
 });
 
 ammoniaSlider.addEventListener("input", (event) => {
   const value = parseFloat(event.target.value);
   userOverrides.ammoniaLevel = value;
-  document.querySelector("#ammonia-value").textContent = `${value} ppm`;
+  updateAmmoniaDisplay(value); 
 });
+
+//to Update both elements at once
+function updateTemperatureDisplay(value) {
+  document.getElementById("temp-display").textContent = `${value}°C`;
+  document.getElementById("temp-value").textContent = `${value}°C`;
+}
+
+// Functions to update both text elements for each parameter
+function updatePHDisplay(value) {
+  document.querySelector("#ph-display").textContent = `${value}`;
+  document.querySelector("#ph-value").textContent = `${value}`;
+}
+
+function updateOxygenDisplay(value) {
+  document.querySelector("#oxygen-display").textContent = `${value} mg/L`;
+  document.querySelector("#oxygen-value").textContent = `${value} mg/L`;
+}
+
+function updateAmmoniaDisplay(value) {
+  document.querySelector("#ammonia-display").textContent = `${value} ppm`;
+  document.querySelector("#ammonia-value").textContent = `${value} ppm`;
+}
+
 
 // Update water parameters function with user overrides
 function updateWaterParameters() {
@@ -130,7 +153,6 @@ function updateWaterParameters() {
 
 // Call the update function initially
 updateWaterParameters();
-
 setInterval(updateWaterParameters, 10000); // Update every 10 seconds
 
 const waterThresholds = {
