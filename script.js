@@ -26,6 +26,18 @@ document.querySelector("#add-fish").addEventListener("click", function() {
   addFish(fishCount);
 });
 
+// Global variables for water parameters [abnormal]
+// let temperature = 35; // Default temperature
+// let pHLevel = 8.2;    // Default pH level
+// let oxygenLevel = 10.5;   // Default oxygen level
+// let ammoniaLevel = 3;  // Default ammonia level
+
+// Global variables for water parameters [normal]
+// let temperature = 25; // Default temperature
+// let pHLevel = 8.0; // Default pH level
+// let oxygenLevel = 5; // Default oxygen level
+// let ammoniaLevel = 0; // Default ammonia level
+
 //for water parameters
 let userOverrides = {
   temperature: null,
@@ -130,53 +142,6 @@ function updateWaterParameters() {
   };
 }
 
-// Global variables for water parameters [abnormal]
-// let temperature = 35; // Default temperature
-// let pHLevel = 8.2;    // Default pH level
-// let oxygenLevel = 10.5;   // Default oxygen level
-// let ammoniaLevel = 3;  // Default ammonia level
-
-// Global variables for water parameters [normal]
-// let temperature = 25; // Default temperature
-// let pHLevel = 8.0; // Default pH level
-// let oxygenLevel = 5; // Default oxygen level
-// let ammoniaLevel = 0; // Default ammonia level
-
-
-
-
-// function updateWaterParameters() {
-//   // Randomly generate water parameters for demonstration
-//   const temperature = (Math.random() * (35 - 20) + 20).toFixed(1); // Random temperature between 20°C and 28°C
-//   const pHLevel = (Math.random() * (8.0 - 6.0) + 6).toFixed(1); // Random pH level between 6.0 and 8.0
-//   const oxygenLevel = (Math.random() * (10 - 2) + 3).toFixed(1); // Random oxygen level between 5 mg/L and 10 mg/L
-//   const ammoniaLevel = (Math.random() * (0.30 - 0.0) + 0).toFixed(2);
-
-//   document.querySelector("#temp-value").textContent = `${temperature}°C`;
-//   document.querySelector("#ph-value").textContent = `${pHLevel}`;
-//   document.querySelector("#oxygen-value").textContent = `${oxygenLevel} mg/L`;
-//   document.querySelector("#ammonia-value").textContent = `${ammoniaLevel} ppm`;
-
-//   // for slider
-//   document.getElementById("temp-display").textContent = `${value}°C`;
-
-//    // Return an object of functions (closures) for accessing each parameter
-//    return {
-//     getTemperature: function() {
-//       return temperature;
-//     },
-//     getPHLevel: function() {
-//       return pHLevel;
-//     },
-//     getOxygenLevel: function() {
-//       return oxygenLevel;
-//     },
-//     getAmmoniaLevel: function() {
-//       return ammoniaLevel;
-//     }
-//   };
-
-// }
 
 // Call the update function initially
 updateWaterParameters();
@@ -301,30 +266,6 @@ function checkWaterParameters() {
 // Call this function periodically to simulate the environment
 setInterval(checkWaterParameters, 10000); // Every 10 seconds check the water
 
-// // Updated addFish function to accept a quantity parameter
-// function addFish(fishCount) {
-//   for (let i = 0; i < fishCount; i++) {
-//     // Create a new fish element
-//     let newFish = document.createElement("div");
-//     newFish.classList.add("fish");
-//     newFish.dataset.health = "healthy"; // Set the fish as healthy initially
-
-//     // Randomly position the fish in the pond
-//     newFish.style.top = Math.random() * 80 + "%"; // Random vertical position
-//     newFish.style.left = Math.random() * 90 + "%"; // Random horizontal position
-
-//     // Add the new fish to the pond
-//     document.querySelector(".pond").appendChild(newFish);
-
-//     // Update fish health count
-//     fishHealth.healthyFish += 1;
-//   }
-
-//   updateFishCounter();
-
-//   console.log(`${fishCount} fish added! Current fish count:`, fishHealth.healthyFish);
-// }
-
 // Updated addFish function to include a fish limit
 function addFish(fishCount) {
   // Check if adding the new fish will exceed the limit
@@ -391,7 +332,7 @@ function fishStatus() {
 // Initial call to display the fish counter when the page loads
 updateFishCounter();
 
-//remove Fish
+// remove Fish
 function removeFish() {
   const pond = document.querySelector(".pond");
 
