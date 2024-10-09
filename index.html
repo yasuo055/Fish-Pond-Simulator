@@ -17,45 +17,58 @@
             <h2>Status</h2>
 
             <div class="fish-counter">
+                <h3>Fish Counter</h3>
+                <P>Max Fish: <span id="fish-max-count">0</span></P>
                 <p>Healthy Fish: <span id="healthy-fish-count">0</span></p>
-                <p>Unhealthy Fish: <span id="unhealthy-fish-count">0</span></p>
+                <p>Unhealthy Fish: <span id="unhealthy-fish-count">0</span></p><br>
+               
+                <h3>Water Parameters</h3>
+                <p>Temperature: <span id="temp-value">25°C</span></p>
+                <p>pH Level: <span id="ph-value">7.0</span></p>
+                <p>Dissolved Oxygen: <span id="oxygen-value">5 mg/L</span></p>
+                <p>Ammonia Level: <span id="ammonia-value">0 ppm</span></p>
             </div>
 
         </div>
 
-        <div class="pond">
-            <!-- Group 1 Fish -->
-        <!-- <div class="fish-group-one">
-            <div class="fish" data-health="healthy"></div>
-            <div class="fish" data-health="unhealthy"></div>
-            <div class="fish" data-health="healthy"></div>
-        </div> -->
-
-        <!-- Group 2 Fish -->
-        <!-- <div class="fish-group-two">
-            <div class="fish" data-health="healthy"></div>
-            <div class="fish" data-health="unhealthy"></div>
-            <div class="fish" data-health="healthy"></div>
-        </div> -->
-            
-        </div>
-        
+        <div class="pond"></div>
         <div class="controls">
             
         <h2>Controls</h2>
            
             <div class="button-con">
-                <button>Feed Fish</button>
+                
+                <input type="number" id="fish-count-input" placeholder="Enter number of fish" min="1" value="1">
                 <button id="add-fish">Add Fish</button>
+                <button>Feed Fish</button>
                 <button id="remove-fish">Remove Fish</button>
-                <button>Adjust pH</button>
+
+                <div class="water-param">
+                    <h3>Adjust Water Parameters</h3>
+                    <div class="param-con">
+                        <label for="temp-slider">Temperature: <span id="temp-display">25°C</span></label>
+                        <input type="range" id="temp-slider" min="20" max="35" step="0.1" value="25">
+
+                        <label for="ph-slider">pH Level: <span id="ph-display">7.0</span></label>
+                        <input type="range" id="ph-slider" min="6.0" max="8.0" step="0.1" value="7.0">
+
+                        <label for="oxygen-slider">Dissolved Oxygen: <span id="oxygen-display">5 mg/L</span></label>
+                        <input type="range" id="oxygen-slider" min="2" max="10" step="0.1" value="5">
+
+                        <label for="ammonia-slider">Ammonia Level:  <span id="ammonia-display">0.10 ppm</span></label>
+                        <input type="range" id="ammonia-slider" min="0" max="0.30" step="0.01" value="0">
+                    </div>
+                </div>
+
+
+                <!-- <button>Adjust pH</button>
                 <button>Adjust Temperature</button>
                 <button>Change Water</button>
                 <button>Check Fish Health</button>
                 <button>Start Simulation</button>
                 <button id="pause-start">Pause</button>
                 <button id="clear-fish-pond">Reset</button>
-                <button>Settings</button>
+                <button>Settings</button> -->
             </div>
             
         </div>
