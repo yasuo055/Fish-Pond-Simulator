@@ -138,10 +138,43 @@ function updateWaterParameters() {
   };
 }
 
-
 // Call the update function initially
 updateWaterParameters();
 setInterval(updateWaterParameters, 10000); // Update every 10 seconds
+
+function updateSliderFromDisplay() {
+  // Get the value from the temp display (assuming it contains "25°C" or similar)
+  const tempDisplayValue = document.getElementById('temp-display').textContent;
+  const phDisplayValue = document.getElementById('ph-display').textContent;
+  const oxygenDisplayValue = document.getElementById('oxygen-display').textContent;
+  const ammoniaDisplayValue = document.getElementById('ammonia-display').textContent;
+
+
+  // Extract only the numeric part of the display (removing '°C')
+  const tempValue = parseFloat(tempDisplayValue.replace('°C', ''));
+  const phValue = parseFloat(phDisplayValue.replace('mg/L', ''));
+  const oxygenValue = oxygenDisplayValue;
+  const ammoniaValue = parseFloat(ammoniaDisplayValue.replace('ppm', ''));
+
+  // Update the temp-slider's value
+  const tempSlider = document.querySelector('#temp-slider');
+  tempSlider.value = tempValue;
+
+  const phSlider = document.querySelector('#ph-slider')
+  phSlider.value = phValue;
+
+  const oxygenSlider = document.querySelector('#oxygen-slider')
+  oxygenSlider.value = oxygenValue;
+
+  const ammoniaSlider = document.querySelector('#ammonia-slider')
+  ammoniaSlider.value = ammoniaValue;
+
+
+}
+
+// Call the function to update the slider whenever necessary
+updateSliderFromDisplay();
+
 
 const waterThresholds = {
   temp: { high: 28, critical: 35 }, // delete normalMax
@@ -182,7 +215,7 @@ function getCondition(value, thresholds) {
 
 // For ammonia
 function getAmmoniaCondition(value, thresholds) {
-  const tolerance = 0.01; // Define a small tolerance for normal level
+  const tolerance = 0.00; // Define a small tolerance for normal level
 
   // Dangerous if ammonia is higher than the high threshold
   if (value >= thresholds.high) {
