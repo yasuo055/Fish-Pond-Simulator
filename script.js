@@ -61,28 +61,24 @@ tempSlider.addEventListener("input", (e) => {
   const temperature = e.target.value;
   userOverrides.temperature = temperature; // Update user override
   updateTemperatureDisplay(temperature);
-  updateWaterParameters(); // Update water parameters immediately
 });
 
 phSlider.addEventListener("input", (event) => {
   const value = parseFloat(event.target.value);
   userOverrides.pHLevel = value;
   updatePHDisplay(value);
-  updateWaterParameters(); // Update water parameters immediately
 });
 
 oxygenSlider.addEventListener("input", (event) => {
   const value = parseFloat(event.target.value);
   userOverrides.oxygenLevel = value;
   updateOxygenDisplay(value);
-  updateWaterParameters(); // Update water parameters immediately
 });
 
 ammoniaSlider.addEventListener("input", (event) => {
   const value = parseFloat(event.target.value);
   userOverrides.ammoniaLevel = value;
   updateAmmoniaDisplay(value);
-  updateWaterParameters(); // Update water parameters immediately
 });
 
 // Function to update temperature display
@@ -154,7 +150,6 @@ const waterThresholds = {
   ammonia: { normal: 0, low: 0.1, high: 0.25 },
 };
 
-
 // Centralized fish effect handler
 const fishEffects = {
   remove: (fishElements) => {
@@ -189,7 +184,7 @@ function getCondition(value, thresholds) {
 function getAmmoniaCondition(value, thresholds) {
   if (value >= thresholds.high) return 'high';  // Dangerous
   if (value >= thresholds.low) return 'low';    // Warning zone
-  if (value === thresholds.normal) return 'normal'; // Normal
+  if (value == thresholds.normal) return 'normal'; // Normal
 }
 
 // Function to check water conditions and apply effects on fish
@@ -201,6 +196,8 @@ function checkWaterParameters() {
   const pHLevel = waterParameters.getPHLevel();
   const oxygenLevel = waterParameters.getOxygenLevel();
   const ammoniaLevel = waterParameters.getAmmoniaLevel();
+
+  console.log("Ammonia level (before condition check):", ammoniaLevel); // Add this
 
   // Check temperature condition
   switch (getCondition(temperature, waterThresholds.temp)) {
@@ -256,6 +253,9 @@ function checkWaterParameters() {
       logWaterCondition('Ammonia Level', 'normal', `${ammoniaLevel} mg/L`);
       break;
   } 
+
+  console.log("Ammonia level (after condition check):", ammoniaLevel); // Add this
+
 
   // Update the fish counter display
   updateFishCounter();
