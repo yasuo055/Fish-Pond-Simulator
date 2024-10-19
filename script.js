@@ -107,7 +107,7 @@ function updateAmmoniaDisplay(value) {
 function updateWaterParameters() {
   const temperature = userOverrides.temperature !== null ? userOverrides.temperature : (Math.random() * (35 - 20) + 20).toFixed(1);
   const pHLevel = userOverrides.pHLevel !== null ? userOverrides.pHLevel : (Math.random() * (8.0 - 6.0) + 6).toFixed(1);
-  const oxygenLevel = userOverrides.oxygenLevel !== null ? userOverrides.oxygenLevel : (Math.random() * (10 - 2) + 3).toFixed(1);
+  const oxygenLevel = userOverrides.oxygenLevel !== null ? userOverrides.oxygenLevel : (Math.random() * (10 - 2) + 2).toFixed(1);
   const ammoniaLevel = userOverrides.ammoniaLevel !== null ? userOverrides.ammoniaLevel : (Math.random() * (0.30 - 0.0) + 0).toFixed(2);
 
   // Update displayed values
@@ -120,6 +120,9 @@ function updateWaterParameters() {
   document.querySelector("#ph-value").textContent = `${pHLevel}`;
   document.querySelector("#oxygen-value").textContent = `${oxygenLevel} mg/L`;
   document.querySelector("#ammonia-value").textContent = `${ammoniaLevel} ppm`;
+
+  // Here you can also set the slider values based on these values
+  updateSliderFromDisplay();
 
    // Return an object of functions (closures) for accessing each parameter
    return {
@@ -153,7 +156,7 @@ function updateSliderFromDisplay() {
   // Extract only the numeric part of the display (removing '°C')
   const tempValue = parseFloat(tempDisplayValue.replace('°C', ''));
   const phValue = parseFloat(phDisplayValue.replace('mg/L', ''));
-  const oxygenValue = oxygenDisplayValue;
+  const oxygenValue = parseInt(oxygenDisplayValue);
   const ammoniaValue = parseFloat(ammoniaDisplayValue.replace('ppm', ''));
 
   // Update the temp-slider's value
@@ -169,12 +172,11 @@ function updateSliderFromDisplay() {
   const ammoniaSlider = document.querySelector('#ammonia-slider')
   ammoniaSlider.value = ammoniaValue;
 
-
 }
 
 // Call the function to update the slider whenever necessary
 updateSliderFromDisplay();
-
+setInterval(updateSliderFromDisplay, 10000);
 
 const waterThresholds = {
   temp: { high: 28, critical: 35 }, // delete normalMax
