@@ -180,11 +180,27 @@ function getCondition(value, thresholds) {
   return 'normal';
 }
 
-// For ammonia specifically:
+// For ammonia
 function getAmmoniaCondition(value, thresholds) {
-  if (value >= thresholds.high) return 'high';  // Dangerous
-  if (value >= thresholds.low) return 'low';    // Warning zone
-  if (value == thresholds.normal) return 'normal'; // Normal
+  const tolerance = 0.01; // Define a small tolerance for normal level
+
+  // Dangerous if ammonia is higher than the high threshold
+  if (value >= thresholds.high) {
+    return 'high';
+  }
+
+  // Warning zone if ammonia is between low and high
+  if (value > thresholds.low && value < thresholds.high) {
+    return 'low';
+  }
+
+  // Normal if the ammonia level is approximately equal to normal
+  if (Math.abs(value - thresholds.normal) <= tolerance) {
+    return 'normal';
+  }
+
+  // Return 'normal' if no other condition matches
+  return 'normal';
 }
 
 // Function to check water conditions and apply effects on fish
@@ -197,7 +213,7 @@ function checkWaterParameters() {
   const oxygenLevel = waterParameters.getOxygenLevel();
   const ammoniaLevel = waterParameters.getAmmoniaLevel();
 
-  console.log("Ammonia level (before condition check):", ammoniaLevel); // Add this
+  // console.log("Ammonia level (before condition check):", ammoniaLevel); // Add this
 
   // Check temperature condition
   switch (getCondition(temperature, waterThresholds.temp)) {
@@ -245,23 +261,23 @@ function checkWaterParameters() {
       logWaterCondition('Ammonia Level', 'dangerously high', `${ammoniaLevel} mg/L`);
       console.log("Fish are dying due to dangerously high ammonia levels!");
       break;
+
     case 'low':
       logWaterCondition('Ammonia Level', 'in the warning zone', `${ammoniaLevel} mg/L`);
       break;
+      
     case 'normal':
       fishEffects.healthy(fishElements);
       logWaterCondition('Ammonia Level', 'normal', `${ammoniaLevel} mg/L`);
       break;
   } 
 
-  console.log("Ammonia level (after condition check):", ammoniaLevel); // Add this
-
+  // console.log("Ammonia level (after condition check):", ammoniaLevel); // Add this
 
   // Update the fish counter display
   updateFishCounter();
   
 }
-
 
 // Call this function periodically to simulate the environment
 setInterval(checkWaterParameters, 10000); // Every 10 seconds check the water
