@@ -26,6 +26,18 @@ document.querySelector("#add-fish").addEventListener("click", function() {
   addFish(fishCount);
 });
 
+// Global variables for water parameters [abnormal]
+// let temperature = 35; // Default temperature
+// let pHLevel = 8.2;    // Default pH level
+// let oxygenLevel = 10.5;   // Default oxygen level
+// let ammoniaLevel = 3;  // Default ammonia level
+
+// Global variables for water parameters [normal]
+// let temperature = 25; // Default temperature
+// let pHLevel = 8.0; // Default pH level
+// let oxygenLevel = 5; // Default oxygen level
+// let ammoniaLevel = 0; // Default ammonia level
+
 //for water parameters
 let userOverrides = {
   temperature: null,
@@ -49,28 +61,24 @@ tempSlider.addEventListener("input", (e) => {
   const temperature = e.target.value;
   userOverrides.temperature = temperature; // Update user override
   updateTemperatureDisplay(temperature);
-  updateWaterParameters(); // Update water parameters immediately
 });
 
 phSlider.addEventListener("input", (event) => {
   const value = parseFloat(event.target.value);
   userOverrides.pHLevel = value;
   updatePHDisplay(value);
-  updateWaterParameters(); // Update water parameters immediately
 });
 
 oxygenSlider.addEventListener("input", (event) => {
   const value = parseFloat(event.target.value);
   userOverrides.oxygenLevel = value;
   updateOxygenDisplay(value);
-  updateWaterParameters(); // Update water parameters immediately
 });
 
 ammoniaSlider.addEventListener("input", (event) => {
   const value = parseFloat(event.target.value);
   userOverrides.ammoniaLevel = value;
   updateAmmoniaDisplay(value);
-  updateWaterParameters(); // Update water parameters immediately
 });
 
 // Function to update temperature display
@@ -99,7 +107,7 @@ function updateAmmoniaDisplay(value) {
 function updateWaterParameters() {
   const temperature = userOverrides.temperature !== null ? userOverrides.temperature : (Math.random() * (35 - 20) + 20).toFixed(1);
   const pHLevel = userOverrides.pHLevel !== null ? userOverrides.pHLevel : (Math.random() * (8.0 - 6.0) + 6).toFixed(1);
-  const oxygenLevel = userOverrides.oxygenLevel !== null ? userOverrides.oxygenLevel : (Math.random() * (10 - 2) + 3).toFixed(1);
+  const oxygenLevel = userOverrides.oxygenLevel !== null ? userOverrides.oxygenLevel : (Math.random() * (10 - 2) + 2).toFixed(1);
   const ammoniaLevel = userOverrides.ammoniaLevel !== null ? userOverrides.ammoniaLevel : (Math.random() * (0.30 - 0.0) + 0).toFixed(2);
 
   // Update displayed values
@@ -112,6 +120,9 @@ function updateWaterParameters() {
   document.querySelector("#ph-value").textContent = `${pHLevel}`;
   document.querySelector("#oxygen-value").textContent = `${oxygenLevel} mg/L`;
   document.querySelector("#ammonia-value").textContent = `${ammoniaLevel} ppm`;
+
+  // Here you can also set the slider values based on these values
+  updateSliderFromDisplay();
 
    // Return an object of functions (closures) for accessing each parameter
    return {
@@ -130,57 +141,42 @@ function updateWaterParameters() {
   };
 }
 
-// Global variables for water parameters [abnormal]
-// let temperature = 35; // Default temperature
-// let pHLevel = 8.2;    // Default pH level
-// let oxygenLevel = 10.5;   // Default oxygen level
-// let ammoniaLevel = 3;  // Default ammonia level
-
-// Global variables for water parameters [normal]
-// let temperature = 25; // Default temperature
-// let pHLevel = 8.0; // Default pH level
-// let oxygenLevel = 5; // Default oxygen level
-// let ammoniaLevel = 0; // Default ammonia level
-
-
-
-
-// function updateWaterParameters() {
-//   // Randomly generate water parameters for demonstration
-//   const temperature = (Math.random() * (35 - 20) + 20).toFixed(1); // Random temperature between 20°C and 28°C
-//   const pHLevel = (Math.random() * (8.0 - 6.0) + 6).toFixed(1); // Random pH level between 6.0 and 8.0
-//   const oxygenLevel = (Math.random() * (10 - 2) + 3).toFixed(1); // Random oxygen level between 5 mg/L and 10 mg/L
-//   const ammoniaLevel = (Math.random() * (0.30 - 0.0) + 0).toFixed(2);
-
-//   document.querySelector("#temp-value").textContent = `${temperature}°C`;
-//   document.querySelector("#ph-value").textContent = `${pHLevel}`;
-//   document.querySelector("#oxygen-value").textContent = `${oxygenLevel} mg/L`;
-//   document.querySelector("#ammonia-value").textContent = `${ammoniaLevel} ppm`;
-
-//   // for slider
-//   document.getElementById("temp-display").textContent = `${value}°C`;
-
-//    // Return an object of functions (closures) for accessing each parameter
-//    return {
-//     getTemperature: function() {
-//       return temperature;
-//     },
-//     getPHLevel: function() {
-//       return pHLevel;
-//     },
-//     getOxygenLevel: function() {
-//       return oxygenLevel;
-//     },
-//     getAmmoniaLevel: function() {
-//       return ammoniaLevel;
-//     }
-//   };
-
-// }
-
 // Call the update function initially
 updateWaterParameters();
 setInterval(updateWaterParameters, 10000); // Update every 10 seconds
+
+function updateSliderFromDisplay() {
+  // Get the value from the temp display (assuming it contains "25°C" or similar)
+  const tempDisplayValue = document.getElementById('temp-display').textContent;
+  const phDisplayValue = document.getElementById('ph-display').textContent;
+  const oxygenDisplayValue = document.getElementById('oxygen-display').textContent;
+  const ammoniaDisplayValue = document.getElementById('ammonia-display').textContent;
+
+
+  // Extract only the numeric part of the display (removing '°C')
+  const tempValue = parseFloat(tempDisplayValue.replace('°C', ''));
+  const phValue = parseFloat(phDisplayValue.replace('mg/L', ''));
+  const oxygenValue = parseInt(oxygenDisplayValue);
+  const ammoniaValue = parseFloat(ammoniaDisplayValue.replace('ppm', ''));
+
+  // Update the temp-slider's value
+  const tempSlider = document.querySelector('#temp-slider');
+  tempSlider.value = tempValue;
+
+  const phSlider = document.querySelector('#ph-slider')
+  phSlider.value = phValue;
+
+  const oxygenSlider = document.querySelector('#oxygen-slider')
+  oxygenSlider.value = oxygenValue;
+
+  const ammoniaSlider = document.querySelector('#ammonia-slider')
+  ammoniaSlider.value = ammoniaValue;
+
+}
+
+// Call the function to update the slider whenever necessary
+updateSliderFromDisplay();
+setInterval(updateSliderFromDisplay, 10000);
 
 const waterThresholds = {
   temp: { high: 28, critical: 35 }, // delete normalMax
@@ -188,7 +184,6 @@ const waterThresholds = {
   oxygen: { high: 10, low: 2 }, // Dissolved oxygen too low can kill fish [delete normalMin]
   ammonia: { normal: 0, low: 0.1, high: 0.25 },
 };
-
 
 // Centralized fish effect handler
 const fishEffects = {
@@ -220,11 +215,27 @@ function getCondition(value, thresholds) {
   return 'normal';
 }
 
-// For ammonia specifically:
+// For ammonia
 function getAmmoniaCondition(value, thresholds) {
-  if (value >= thresholds.high) return 'high';  // Dangerous
-  if (value >= thresholds.low) return 'low';    // Warning zone
-  if (value === thresholds.normal) return 'normal'; // Normal
+  const tolerance = 0.00; // Define a small tolerance for normal level
+
+  // Dangerous if ammonia is higher than the high threshold
+  if (value >= thresholds.high) {
+    return 'high';
+  }
+
+  // Warning zone if ammonia is between low and high
+  if (value > thresholds.low && value < thresholds.high) {
+    return 'low';
+  }
+
+  // Normal if the ammonia level is approximately equal to normal
+  if (Math.abs(value - thresholds.normal) <= tolerance) {
+    return 'normal';
+  }
+
+  // Return 'normal' if no other condition matches
+  return 'normal';
 }
 
 // Function to check water conditions and apply effects on fish
@@ -236,6 +247,8 @@ function checkWaterParameters() {
   const pHLevel = waterParameters.getPHLevel();
   const oxygenLevel = waterParameters.getOxygenLevel();
   const ammoniaLevel = waterParameters.getAmmoniaLevel();
+
+  // console.log("Ammonia level (before condition check):", ammoniaLevel); // Add this
 
   // Check temperature condition
   switch (getCondition(temperature, waterThresholds.temp)) {
@@ -283,47 +296,26 @@ function checkWaterParameters() {
       logWaterCondition('Ammonia Level', 'dangerously high', `${ammoniaLevel} mg/L`);
       console.log("Fish are dying due to dangerously high ammonia levels!");
       break;
+
     case 'low':
       logWaterCondition('Ammonia Level', 'in the warning zone', `${ammoniaLevel} mg/L`);
       break;
+      
     case 'normal':
       fishEffects.healthy(fishElements);
       logWaterCondition('Ammonia Level', 'normal', `${ammoniaLevel} mg/L`);
       break;
   } 
 
+  // console.log("Ammonia level (after condition check):", ammoniaLevel); // Add this
+
   // Update the fish counter display
   updateFishCounter();
   
 }
 
-
 // Call this function periodically to simulate the environment
 setInterval(checkWaterParameters, 10000); // Every 10 seconds check the water
-
-// // Updated addFish function to accept a quantity parameter
-// function addFish(fishCount) {
-//   for (let i = 0; i < fishCount; i++) {
-//     // Create a new fish element
-//     let newFish = document.createElement("div");
-//     newFish.classList.add("fish");
-//     newFish.dataset.health = "healthy"; // Set the fish as healthy initially
-
-//     // Randomly position the fish in the pond
-//     newFish.style.top = Math.random() * 80 + "%"; // Random vertical position
-//     newFish.style.left = Math.random() * 90 + "%"; // Random horizontal position
-
-//     // Add the new fish to the pond
-//     document.querySelector(".pond").appendChild(newFish);
-
-//     // Update fish health count
-//     fishHealth.healthyFish += 1;
-//   }
-
-//   updateFishCounter();
-
-//   console.log(`${fishCount} fish added! Current fish count:`, fishHealth.healthyFish);
-// }
 
 // Updated addFish function to include a fish limit
 function addFish(fishCount) {
@@ -391,7 +383,7 @@ function fishStatus() {
 // Initial call to display the fish counter when the page loads
 updateFishCounter();
 
-//remove Fish
+// remove Fish
 function removeFish() {
   const pond = document.querySelector(".pond");
 
