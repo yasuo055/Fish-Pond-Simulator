@@ -1,6 +1,7 @@
 let fishHealth = {
   healthyFish: 0, // Start with 0 healthy fish
   unhealthyFish: 0, // Start with 0 unhealthy fish
+  deadFishCount: 0, // Start with 0 dead fish
 };
 
 // Event listener
@@ -196,7 +197,11 @@ const fishEffects = {
       } else if (fish.dataset.health === "unhealthy") {
         fishHealth.unhealthyFish--;  // Only decrement if the fish is marked unhealthy
       }
-      
+    
+       // Increment dead fish count
+    fishHealth.deadFishCount++; // Update dead fish count
+    document.querySelector("#dead-fish-count").textContent = fishHealth.deadFishCount; 
+
       fish.style.opacity = 0;
       fish.remove();
     });
@@ -226,7 +231,6 @@ const fishEffects = {
     });
   }
 };
-
 
 // Centralized logger for water conditions
 function logWaterCondition(param, level, unit = '') {
@@ -399,6 +403,8 @@ function updateFishCounter() {
     fishHealth.unhealthyFish;
     document.querySelector("#fish-max-count").textContent =
     maxFishCount;
+  document.querySelector("#dead-fish-count").textContent =
+    fishHealth.deadFishCount;
 }
 
 function fishStatus() {
