@@ -409,8 +409,8 @@ function updateFishCounter() {
 
 function fishStatus() {
   if (fishHealth.healthyFish > 0) {
-    fishHealth.healthyFish -= 1;
-    fishHealth.unhealthyFish += 1;
+    fishHealth.healthyFish = Math.max(0, fishHealth.healthyFish - 1); // Ensure it doesn't go negative
+    fishHealth.unhealthyFish++;
     updateFishCounter();
     console.log("A fish became unhealthy! Current count:", fishHealth);
   }
@@ -422,19 +422,18 @@ updateFishCounter();
 // remove Fish
 function removeFish() {
   const pond = document.querySelector(".pond");
-
   const fishArray = pond.getElementsByClassName("fish");
 
   if (fishArray.length > 0) {
     //get the last fish
     const fishToRemove = fishArray[fishArray.length - 1];
 
-    // check the health status of the fish to update counts
-    if (fishToRemove.dataset.health === "healthy") {
-      fishHealth.healthyFish -= 1; //remove the healthy fish 1 by 1
-    } else {
-      fishHealth.unhealthyFish -= 1; //remove the unhealthy fish 1 by 1
-    }
+  // check the health status of the fish to update counts
+  if (fishToRemove.dataset.health === "healthy") {
+    fishHealth.healthyFish = Math.max(0, fishHealth.healthyFish - 1); // Ensure it doesn't go negative
+  } else {
+    fishHealth.unhealthyFish = Math.max(0, fishHealth.unhealthyFish - 1); // Ensure it doesn't go negative
+  }
 
     //remove the fish from the pond
     pond.removeChild(fishToRemove);
