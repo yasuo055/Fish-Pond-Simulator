@@ -13,7 +13,7 @@ body {
     -webkit-font-smoothing: antialiased;
     font-display: swap;
     padding-top: 12px;
-    height: 130vh;
+    /* height: 130vh; */
 }
 
 h1,
@@ -259,6 +259,7 @@ label {
 
 /* Console */
 .console {
+    display: none;
     font-family: 'Courier New', monospace;
     background-color: #282c34;
     color: #61dafb;
@@ -271,6 +272,20 @@ label {
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
 }
 
+.btn-con {
+    display: flex;
+    justify-content: center;
+}
+
+.btn-toggle-console {
+    padding: 12px;
+    margin: 12px;
+    color: #fff;
+    background-color: rgb(16, 155, 215);
+    border:0px none;
+    border-radius: 4px;
+}
+
 #messages {
     max-height: 274px;
     overflow-y: auto;
@@ -279,6 +294,10 @@ label {
     flex-direction: column; 
     gap: 6px;
     background-color: #21252b;
+}
+
+#messages:active {
+    background-color: #61dafb;
 }
 
 #messages div {
