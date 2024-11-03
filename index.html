@@ -78,9 +78,28 @@
          
 
     </main>
-    <div class="console" id="console"></div>
+    <div class="console">
+        <div class="tabs">
+            <button onclick="openTab('messages')">Messages</button>
+            <button onclick="openTab('ai-monitor')">AI Monitoring</button>
+            <button onclick="openTab('ai-assistant')">AI Assistant</button>
+        </div>
+        <div id="messages" class="tab-content">System initialized...</div>
+        <div id="ai-monitor" class="tab-content">AI recommendation...</div>
+        <div id="ai-assistant" class="tab-content">
+            <div id="ai-assistant-messages" style="flex: 1; overflow-y: auto;">
+                Ask a question...
+            </div>
+            <div id="ai-assistant-input">
+                <input type="text" id="user-question" placeholder="Type your question here">
+                <button onclick="submitQuestion()">Send</button>
+            </div>
+        </div>
+    </div>
+    
 
     <!-- script -->
      <script src="script.js"></script>
+     <script src="scriptforconsole.js"></script>
 </body>
 </html>
