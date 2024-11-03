@@ -263,23 +263,23 @@ label {
     border: 1px solid #333;
     width: 400px;
     margin: 0 auto;
-    overflow-y: auto;
-}
 
-#console-log {
+}
+#messages {
     max-height: 200px;
     overflow-y: auto;
-    border: 1px solid #ccc;
     padding: 10px;
-    background-color: #f9f9f9;
-    /* Background color */
+    display: flex;
+    flex-direction: column; /* Stack messages vertically */
+    gap: 5px; /* Add some spacing between messages */
+    background-color: #252526;
 }
 
-#console-log div {
+#messages div {
     padding: 5px;
-    /* Padding for each log message */
+    width: 100%;
+    word-wrap: break-word; /* Wrap text to prevent horizontal scrolling */
 }
-
 
 .tabs {
     display: flex;
@@ -351,23 +351,13 @@ label {
     background-color: #555;
 }
 
-.info {
-    color: blue;
-    /* Color for info messages */
-}
-
-.warning {
-    color: orange;
-    /* Color for warning messages */
-    font-weight: bold;
-    /* Make it bold */
-}
-
-.error {
-    color: red;
-    /* Color for error messages */
-    font-weight: bold;
-    /* Make it bold */
-    text-decoration: underline;
-    /* Underline for emphasis */
-}
+ /* Message Classification Styles */
+ .info {
+    color: #b3d9ff; /* Light blue for info messages */
+ }
+ .warning {
+    color: #ffcc00; /* Yellow for warnings */
+ }
+ .error {
+    color: #ff6666; /* Red for errors */
+ }
