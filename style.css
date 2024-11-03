@@ -13,7 +13,7 @@ body {
     -webkit-font-smoothing: antialiased;
     font-display: swap;
     padding-top: 12px;
-    /* height: 100vh; */
+    height: 130vh;
 }
 
 h1,
@@ -160,7 +160,7 @@ main {
 
 /* controls */
 
-button {
+.button-con button {
     width: 100px;
     height: 50px;
     font-size: 12px;
@@ -256,27 +256,21 @@ label {
 /* Console */
 
 .console {
-    width: 80%;
-    max-width: 600px;
-    height: 250px;
-    margin: 12px;
+    font-family: monospace;
+    background-color: #1e1e1e;
+    color: #d4d4d4;
     padding: 10px;
-    background-color: #333;
-    color: #ddd;
+    border: 1px solid #333;
+    width: 400px;
+    margin: 0 auto;
     overflow-y: auto;
-    border-radius: 5px;
-    border: 1px solid #555;
 }
 
 #console-log {
     max-height: 200px;
-    /* Set a max height */
     overflow-y: auto;
-    /* Add scrolling */
     border: 1px solid #ccc;
-    /* Border for visibility */
     padding: 10px;
-    /* Padding */
     background-color: #f9f9f9;
     /* Background color */
 }
@@ -284,6 +278,77 @@ label {
 #console-log div {
     padding: 5px;
     /* Padding for each log message */
+}
+
+
+.tabs {
+    display: flex;
+    gap: 5px;
+    margin-bottom: 10px;
+}
+
+.tabs button {
+    background-color: #333;
+    color: #d4d4d4;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+}
+
+.tabs button:hover {
+    background-color: #555;
+}
+
+.tab-content {
+    display: none;
+    padding: 10px;
+    background-color: #252526;
+    margin-top: 5px;
+    height: 200px;
+    overflow-y: auto;
+    border: 1px solid #444;
+}
+
+.tab-content p {
+    margin: 0;
+    padding: 2px 0;
+}
+
+/* AI Assistant Flex Layout */
+#ai-assistant {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 200px;
+}
+
+/* Input area for AI Assistant */
+#ai-assistant-input {
+    display: flex;
+    gap: 5px;
+    padding-top: 10px;
+}
+
+#ai-assistant-input input {
+    flex: 1;
+    padding: 5px;
+    font-family: monospace;
+    font-size: 14px;
+    background-color: #333;
+    color: #d4d4d4;
+    border: 1px solid #444;
+}
+
+#ai-assistant-input button {
+    padding: 5px 10px;
+    background-color: #333;
+    color: #d4d4d4;
+    border: 1px solid #444;
+    cursor: pointer;
+}
+
+#ai-assistant-input button:hover {
+    background-color: #555;
 }
 
 .info {
