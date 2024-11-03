@@ -253,37 +253,43 @@ label {
     align-items: center;
 }
 
+/* toggle button */
+
+
+
 /* Console */
-
 .console {
-    font-family: monospace;
-    background-color: #1e1e1e;
-    color: #d4d4d4;
-    padding: 10px;
-    border: 1px solid #333;
-    width: 400px;
-    margin: 0 auto;
-
+    font-family: 'Courier New', monospace;
+    background-color: #282c34;
+    color: #61dafb;
+    padding: 20px;
+    border: 2px solid #61dafb;
+    width: 700px;
+    height: 350px;
+    margin: 20px auto;
+    border-radius: 10px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
 }
+
 #messages {
-    max-height: 200px;
+    max-height: 274px;
     overflow-y: auto;
     padding: 10px;
     display: flex;
-    flex-direction: column; /* Stack messages vertically */
-    gap: 5px; /* Add some spacing between messages */
-    background-color: #252526;
+    flex-direction: column; 
+    gap: 6px;
+    background-color: #21252b;
 }
 
 #messages div {
-    padding: 5px;
+    padding: 8px;
     width: 100%;
-    word-wrap: break-word; /* Wrap text to prevent horizontal scrolling */
+    word-wrap: break-word;
 }
 
 .tabs {
     display: flex;
-    gap: 5px;
+    gap: 10px;
     margin-bottom: 10px;
 }
 
@@ -291,7 +297,7 @@ label {
     background-color: #333;
     color: #d4d4d4;
     border: none;
-    padding: 5px 10px;
+    padding: 6px 10px;
     cursor: pointer;
 }
 
@@ -304,7 +310,7 @@ label {
     padding: 10px;
     background-color: #252526;
     margin-top: 5px;
-    height: 200px;
+    height: 274px;
     overflow-y: auto;
     border: 1px solid #444;
 }
@@ -314,15 +320,13 @@ label {
     padding: 2px 0;
 }
 
-/* AI Assistant Flex Layout */
 #ai-assistant {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    height: 200px;
+    height: 274px;
 }
 
-/* Input area for AI Assistant */
 #ai-assistant-input {
     display: flex;
     gap: 5px;
@@ -340,7 +344,7 @@ label {
 }
 
 #ai-assistant-input button {
-    padding: 5px 10px;
+    padding: 6px 10px;
     background-color: #333;
     color: #d4d4d4;
     border: 1px solid #444;
@@ -361,3 +365,5 @@ label {
  .error {
     color: #ff6666; /* Red for errors */
  }
+
+ 

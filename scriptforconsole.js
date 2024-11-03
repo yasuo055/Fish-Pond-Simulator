@@ -19,10 +19,8 @@ function submitQuestion() {
     }
 }
 
-// Sample log entries for each section
-// logMessage('messages', 'System initialized.');
-// logMessage('ai-monitor', 'Temperature: 25°C, pH: 7.4');
-// logMessage('ai-assistant', 'AI ready to assist with questions.');
+// for toggle button (console)
+
 
 // Initialize with Messages tab open
 openTab('messages');
