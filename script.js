@@ -449,7 +449,7 @@ function removeFish() {
 
 // Custom log function to display messages in HTML console
 function logMessage(message) {
-  const consoleDiv = document.getElementById("console");
+  const consoleDiv = document.getElementById("messages");
   const newMessage = document.createElement("p");
   newMessage.textContent = message;
   newMessage.style.margin = "0"; // Keeps spacing consistent
