@@ -3,14 +3,6 @@ function openTab(tabId) {
     document.getElementById(tabId).style.display = 'flex'; // Set AI Assistant tab to flex
 }
 
-function logMessage(tabId, message) {
-    const tab = document.getElementById(`${tabId}-messages`);
-    const newMessage = document.createElement('p');
-    newMessage.textContent = message;
-    tab.appendChild(newMessage);
-    tab.scrollTop = tab.scrollHeight;  // Auto-scroll to the bottom
-}
-
 // Function to handle question submission in AI Assistant tab
 function submitQuestion() {
     const questionInput = document.getElementById('user-question');
@@ -28,9 +20,9 @@ function submitQuestion() {
 }
 
 // Sample log entries for each section
-logMessage('messages', 'System initialized.');
-logMessage('ai-monitor', 'Temperature: 25°C, pH: 7.4');
-logMessage('ai-assistant', 'AI ready to assist with questions.');
+// logMessage('messages', 'System initialized.');
+// logMessage('ai-monitor', 'Temperature: 25°C, pH: 7.4');
+// logMessage('ai-assistant', 'AI ready to assist with questions.');
 
 // Initialize with Messages tab open
 openTab('messages');
