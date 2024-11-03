@@ -78,7 +78,11 @@
          
 
     </main>
-    <div class="console">
+    <div class="btn-con">
+        <button class="btn-toggle-console" onclick="toggleConsole()">Console</button>
+    </div>
+
+    <div class="console" id="console">
         <div class="tabs">
             <button onclick="openTab('messages')">Messages</button>
             <button onclick="openTab('ai-monitor')">AI Monitoring</button>
@@ -96,6 +100,7 @@
             </div>
         </div>
     </div>
+    
     
 
     <!-- script -->
