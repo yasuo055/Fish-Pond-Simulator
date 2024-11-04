@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fish Pond Simulator Console</title>
+    <style>
+        /* Console Styling */
+        .console {
+            font-family: monospace;
+            background-color: #1e1e1e;
+            color: #d4d4d4;
+            padding: 10px;
+            border: 1px solid #333;
+            width: 400px;
+            margin: 0 auto;
+            overflow-y: auto;
+        }
+
+        #console-log {
+            max-height: 200px;
+            /* Set a max height */
+            overflow-y: auto;
+            /* Add scrolling */
+            border: 1px solid #ccc;
+            /* Border for visibility */
+            padding: 10px;
+            /* Padding */
+            background-color: #f9f9f9;
+            /* Background color */
+        }
+
+        #console-log div {
+            padding: 5px;
+            /* Padding for each log message */
+        }
+
+        .tabs {
+            display: flex;
+            gap: 5px;
+            margin-bottom: 10px;
+        }
+
+        .tabs button {
+            background-color: #333;
+            color: #d4d4d4;
+            border: none;
+            padding: 5px 10px;
+            cursor: pointer;
+        }
+
+        .tabs button:hover {
+            background-color: #555;
+        }
+
+        .tab-content {
+            display: none;
+            padding: 10px;
+            background-color: #252526;
+            margin-top: 5px;
+            height: 200px;
+            overflow-y: auto;
+            border: 1px solid #444;
+        }
+
+        .tab-content p {
+            margin: 0;
+            padding: 2px 0;
+        }
+
+        /* AI Assistant Flex Layout */
+        #ai-assistant {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            height: 200px;
+        }
+
+        /* Input area for AI Assistant */
+        #ai-assistant-input {
+            display: flex;
+            gap: 5px;
+            padding-top: 10px;
+        }
+
+        #ai-assistant-input input {
+            flex: 1;
+            padding: 5px;
+            font-family: monospace;
+            font-size: 14px;
+            background-color: #333;
+            color: #d4d4d4;
+            border: 1px solid #444;
+        }
+
+        #ai-assistant-input button {
+            padding: 5px 10px;
+            background-color: #333;
+            color: #d4d4d4;
+            border: 1px solid #444;
+            cursor: pointer;
+        }
+
+        #ai-assistant-input button:hover {
+            background-color: #555;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="console">
+        <div class="tabs">
+            <button onclick="openTab('messages')">Messages</button>
+            <button onclick="openTab('ai-monitor')">AI Monitoring</button>
+            <button onclick="openTab('ai-assistant')">AI Assistant</button>
+        </div>
+        <div id="messages" class="tab-content">Messages will appear here like temperature: 20 C...</div>
+        <div id="ai-monitor" class="tab-content">AI recommendation...</div>
+        <div id="ai-assistant" class="tab-content">
+            <div id="ai-assistant-messages">
+                Ask a question...
+            </div>
+            <div id="ai-assistant-input">
+                <input type="text" id="user-question" placeholder="Type your question here">
+                <button onclick="submitQuestion()">Send</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function openTab(tabId) {
+            document.querySelectorAll('.tab-content').forEach(tab => tab.style.display = 'none');
+            document.getElementById(tabId).style.display = 'flex'; // Set AI Assistant tab to flex
+        }
+
+        function logMessage1(tabId, message) {
+            const tab = document.getElementById(`${tabId}-messages`);
+            const newMessage = document.createElement('p');
+            newMessage.textContent = message;
+            tab.appendChild(newMessage);
+            tab.scrollTop = tab.scrollHeight;  // Auto-scroll to the bottom
+        }
+
+        // Function to handle question submission in AI Assistant tab
+        function submitQuestion() {
+            const questionInput = document.getElementById('user-question');
+            const question = questionInput.value.trim();
+
+            if (question) {
+                logMessage('ai-assistant', `User: ${question}`);
+                questionInput.value = '';  // Clear the input field
+
+                // Here, you could also add code to simulate an AI response if needed
+                setTimeout(() => {
+                    logMessage('ai-assistant', "AI: I'm here to help with your fish pond questions!");
+                }, 500);  // Simulate response delay
+            }
+        }
+
+        // Sample log entries for each section
+        logMessage('messages', 'System initialized.');
+        logMessage('ai-monitor', 'Temperature: 25°C, pH: 7.4');
+        logMessage('ai-assistant', 'AI ready to assist with questions.');
+
+        // Initialize with Messages tab open
+        openTab('messages');
+    </script>
+
+</body>
+
+</html>
