@@ -577,7 +577,7 @@ setInterval(() => {
   const waterParameters = updateWaterParameters();
   checkWaterParameters(); // This should call `updateFishHealth` internally
   updateFishHealth(waterParameters.getTemperature(), waterParameters.getPHLevel(), waterParameters.getOxygenLevel(), waterParameters.getAmmoniaLevel());
-}, 1000); // Update every 10 seconds
+}, 30000); // Update every 30 seconds
 
 // Example usage of the logMessage function for other user interactions
 // function handleUserInput(fishCount) {
