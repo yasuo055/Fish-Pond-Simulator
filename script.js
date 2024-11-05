@@ -487,7 +487,7 @@ function removeFish() {
 //   consoleDiv.scrollTop = consoleDiv.scrollHeight; // Auto-scroll to latest message
 // }
 
-// v2
+// for messages of system
 function logMessage(message, type) {
   const consoleDiv = document.getElementById("messages");
   const newMessage = document.createElement("p");
@@ -503,6 +503,8 @@ function logMessage(message, type) {
   if (consoleDiv.childNodes.length > 20) { // Adjust number as needed
     consoleDiv.removeChild(consoleDiv.firstChild);
   }
+
+  consoleDiv.scrollTop = consoleDiv.scrollHeight; // Auto-scroll to latest message
 }
 
 

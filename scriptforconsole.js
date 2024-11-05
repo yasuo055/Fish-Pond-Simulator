@@ -4,6 +4,7 @@ function openTab(tabId) {
     document.getElementById(tabId).style.display = 'flex'; // Set AI Assistant tab to flex
 }
 
+//for ai-assistant
 function createMessage(tabId, message) {
     const tab = document.getElementById(`${tabId}-messages`);
     const newMessage = document.createElement('p');
