@@ -253,7 +253,29 @@ label {
     align-items: center;
 }
 
-/* toggle button */
+/* date-time */
+.header {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    padding: 12px;
+}
+
+.header h1 {
+    flex-grow: 1;
+    text-align: center;
+    margin: 0;
+}
+
+.header h2 {
+    margin: 0;
+}
+
+#date-time-display {
+    text-align: right;
+    color: #000;
+}
+
 
 
 
