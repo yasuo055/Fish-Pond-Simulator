@@ -467,7 +467,27 @@ function removeFish() {
   }
 }
 
-// Custom log function to display messages in HTML console
+// Custom log function to display messages in HTML console v1
+// function logMessage(message, type) {
+//   const consoleDiv = document.getElementById("messages");
+//   const newMessage = document.createElement("p");
+//   newMessage.textContent = message;
+//   newMessage.style.margin = "0"; // Keeps spacing consistent
+
+//   // Assign class based on message type
+//   if (type === 'info') {
+//       newMessage.classList.add('info');
+//   } else if (type === 'warning') {
+//       newMessage.classList.add('warning');
+//   } else if (type === 'error') {
+//       newMessage.classList.add('error');
+//   }
+
+//   consoleDiv.appendChild(newMessage);
+//   consoleDiv.scrollTop = consoleDiv.scrollHeight; // Auto-scroll to latest message
+// }
+
+// v2
 function logMessage(message, type) {
   const consoleDiv = document.getElementById("messages");
   const newMessage = document.createElement("p");
@@ -475,17 +495,16 @@ function logMessage(message, type) {
   newMessage.style.margin = "0"; // Keeps spacing consistent
 
   // Assign class based on message type
-  if (type === 'info') {
-      newMessage.classList.add('info');
-  } else if (type === 'warning') {
-      newMessage.classList.add('warning');
-  } else if (type === 'error') {
-      newMessage.classList.add('error');
-  }
-
+  newMessage.classList.add(type); // Assuming type is already a class like 'info', 'warning', 'error'
+  
   consoleDiv.appendChild(newMessage);
-  consoleDiv.scrollTop = consoleDiv.scrollHeight; // Auto-scroll to latest message
+
+  // Limit number of messages displayed
+  if (consoleDiv.childNodes.length > 20) { // Adjust number as needed
+    consoleDiv.removeChild(consoleDiv.firstChild);
+  }
 }
+
 
 // logMessage('System initialized.', 'info'); // For info messages
 // logMessage('Warning: pH level is approaching the danger zone!', 'warning'); // For warnings
@@ -577,7 +596,7 @@ setInterval(() => {
   const waterParameters = updateWaterParameters();
   checkWaterParameters(); // This should call `updateFishHealth` internally
   updateFishHealth(waterParameters.getTemperature(), waterParameters.getPHLevel(), waterParameters.getOxygenLevel(), waterParameters.getAmmoniaLevel());
-}, 1000); // Update every 10 seconds
+}, 10000); // Update every 10 seconds
 
 // Example usage of the logMessage function for other user interactions
 // function handleUserInput(fishCount) {
