@@ -14,14 +14,17 @@ document.querySelector("#remove-fish").addEventListener("click", removeFish);
 //   .querySelector("#pause-start")
 //   .addEventListener("click", toggleAnimation);
 // Event listener for adding fish with user-defined amount
-document.querySelector("#add-fish").addEventListener("click", function() {
+document.querySelector("#add-fish").addEventListener("click", function () {
   const fishCount = parseInt(document.querySelector("#fish-count-input").value);
 
   // Validation: Check if the input is empty, not a number, or less than 1
   if (isNaN(fishCount) || fishCount <= 0) {
-    logMessage("Please enter a valid number greater than 0.", 'info');
-    logMessage("Please enter a valid number greater than 0 or input a number.", 'info');
-    return; 
+    logMessage("Please enter a valid number greater than 0.", "info");
+    logMessage(
+      "Please enter a valid number greater than 0 or input a number.",
+      "info"
+    );
+    return;
   }
 
   addFish(fishCount);
@@ -44,7 +47,7 @@ let userOverrides = {
   temperature: null,
   pHLevel: null,
   oxygenLevel: null,
-  ammoniaLevel: null
+  ammoniaLevel: null,
 };
 
 // Get DOM elements for sliders
@@ -54,8 +57,30 @@ const oxygenSlider = document.querySelector("#oxygen-slider");
 const ammoniaSlider = document.querySelector("#ammonia-slider");
 
 //init for water param
+let currentHour = new Date().getHours(); // Initialize currentHour to the current time
 let temperature, pHLevel, oxygenLevel, ammoniaLevel;
 const maxFishCount = 30;
+
+// time and date
+function formatDateTime() {
+  const now = new Date();
+  const options = {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+    hour: "numeric",
+    minute: "numeric",
+    second: "numeric",
+    hour12: true,
+  };
+  return now.toLocaleString("en-US", options);
+}
+
+function updateDateTime() {
+  document.querySelector("#date-time-display").textContent = formatDateTime();
+}
+
+setInterval(updateDateTime, 1000); // Update the date and time every second
 
 // Event listeners to capture user input and override water parameters
 tempSlider.addEventListener("input", (e) => {
@@ -104,12 +129,66 @@ function updateAmmoniaDisplay(value) {
   document.querySelector("#ammonia-value").textContent = `${value} ppm`;
 }
 
+//temp randomize based on time of the day
+function updateTemperature() {
+  const baseTemp = 20; // Base temperature, adjustable for the pond environment
+  const now = new Date();
+  const currentHour = now.getHours(); // Get the current hour
+  let temperature;
+
+  if (currentHour >= 6 && currentHour < 12) {
+      // Morning to Noon
+      temperature = baseTemp + (currentHour - 6) * 1.5; // Gradual increase
+  } else if (currentHour >= 12 && currentHour < 18) {
+      // Noon to Evening
+      temperature = baseTemp + 12 - (currentHour - 12) * 1.5; // Peak and decrease
+  } else {
+      // Nighttime
+      temperature = baseTemp + (Math.random() * 2 - 1); // Small fluctuations
+  }
+
+  return temperature.toFixed(1); // Round to one decimal place for display
+}
+
+
+//DO randomize based on time of the day
+function updateOxygen() {
+  const minOxygen = 2; // Minimum oxygen level during night
+  const maxOxygen = 10; // Maximum oxygen level during day
+  const now = new Date();
+  const currentHour = now.getHours(); // Get the current hour
+  const cycleDuration = 24; // Total hours in a day
+
+  // Normalize the current hour into a value between 0 and 1 for a full cycle
+  const normalizedHour = (currentHour % cycleDuration) / cycleDuration;
+
+  // Use a sine function to create a smooth rise and fall of oxygen levels
+  const oxygenLevel =
+      minOxygen +
+      (maxOxygen - minOxygen) * (0.5 * (1 + Math.sin(normalizedHour * 2 * Math.PI)));
+
+  return oxygenLevel.toFixed(1); // Round to one decimal place for display
+}
+
+
 // Function to update water parameters with user overrides or random values and initialized of water parameters
 function updateWaterParameters() {
-  const temperature = userOverrides.temperature !== null ? userOverrides.temperature : (Math.random() * (35 - 20) + 20).toFixed(1);
-  const pHLevel = userOverrides.pHLevel !== null ? userOverrides.pHLevel : (Math.random() * (8.0 - 6.0) + 6).toFixed(1);
-  const oxygenLevel = userOverrides.oxygenLevel !== null ? userOverrides.oxygenLevel : (Math.random() * (10 - 2) + 2).toFixed(1);
-  const ammoniaLevel = userOverrides.ammoniaLevel !== null ? userOverrides.ammoniaLevel : (Math.random() * (0.30 - 0.0) + 0).toFixed(2);
+  const temperature =
+    userOverrides.temperature !== null
+      ? userOverrides.temperature
+      : updateTemperature();
+  const pHLevel =
+    userOverrides.pHLevel !== null
+      ? userOverrides.pHLevel
+      : (Math.random() * (8.0 - 6.0) + 6).toFixed(1);
+  const oxygenLevel =
+    userOverrides.oxygenLevel !== null
+      ? userOverrides.oxygenLevel
+      : updateOxygen();
+  const ammoniaLevel =
+    userOverrides.ammoniaLevel !== null
+      ? userOverrides.ammoniaLevel
+      : (Math.random() * (0.3 - 0.0) + 0).toFixed(2);
 
   // Update displayed values
   updateTemperatureDisplay(temperature);
@@ -125,23 +204,26 @@ function updateWaterParameters() {
   document.querySelector("#oxygen-value").textContent = `${oxygenLevel} mg/L`;
   document.querySelector("#ammonia-value").textContent = `${ammoniaLevel} ppm`;
 
+  // Increment the hour for the next temperature update, looping back to 0 after 23
+  currentHour = (currentHour + 1) % 24;
+
   // Here you can also set the slider values based on these values
   updateSliderFromDisplay();
 
-   // Return an object of functions (closures) for accessing each parameter
-   return {
-    getTemperature: function() {
+  // Return an object of functions (closures) for accessing each parameter
+  return {
+    getTemperature: function () {
       return temperature;
     },
-    getPHLevel: function() {
+    getPHLevel: function () {
       return pHLevel;
     },
-    getOxygenLevel: function() {
+    getOxygenLevel: function () {
       return oxygenLevel;
     },
-    getAmmoniaLevel: function() {
+    getAmmoniaLevel: function () {
       return ammoniaLevel;
-    }
+    },
   };
 }
 
@@ -151,31 +233,31 @@ updateWaterParameters();
 
 function updateSliderFromDisplay() {
   // Get the value from the temp display (assuming it contains "25°C" or similar)
-  const tempDisplayValue = document.getElementById('temp-display').textContent;
-  const phDisplayValue = document.getElementById('ph-display').textContent;
-  const oxygenDisplayValue = document.getElementById('oxygen-display').textContent;
-  const ammoniaDisplayValue = document.getElementById('ammonia-display').textContent;
-
+  const tempDisplayValue = document.getElementById("temp-display").textContent;
+  const phDisplayValue = document.getElementById("ph-display").textContent;
+  const oxygenDisplayValue =
+    document.getElementById("oxygen-display").textContent;
+  const ammoniaDisplayValue =
+    document.getElementById("ammonia-display").textContent;
 
   // Extract only the numeric part of the display (removing '°C')
-  const tempValue = parseFloat(tempDisplayValue.replace('°C', ''));
-  const phValue = parseFloat(phDisplayValue.replace('mg/L', ''));
+  const tempValue = parseFloat(tempDisplayValue.replace("°C", ""));
+  const phValue = parseFloat(phDisplayValue.replace("mg/L", ""));
   const oxygenValue = parseInt(oxygenDisplayValue);
-  const ammoniaValue = parseFloat(ammoniaDisplayValue.replace('ppm', ''));
+  const ammoniaValue = parseFloat(ammoniaDisplayValue.replace("ppm", ""));
 
   // Update the temp-slider's value
-  const tempSlider = document.querySelector('#temp-slider');
+  const tempSlider = document.querySelector("#temp-slider");
   tempSlider.value = tempValue;
 
-  const phSlider = document.querySelector('#ph-slider')
+  const phSlider = document.querySelector("#ph-slider");
   phSlider.value = phValue;
 
-  const oxygenSlider = document.querySelector('#oxygen-slider')
+  const oxygenSlider = document.querySelector("#oxygen-slider");
   oxygenSlider.value = oxygenValue;
 
-  const ammoniaSlider = document.querySelector('#ammonia-slider')
+  const ammoniaSlider = document.querySelector("#ammonia-slider");
   ammoniaSlider.value = ammoniaValue;
-
 }
 
 // Call the function to update the slider whenever necessary
@@ -183,109 +265,109 @@ updateSliderFromDisplay();
 // setInterval(updateSliderFromDisplay, 10000);
 
 const waterThresholds = {
-  temp: { high: 28, critical: 35 }, 
-  ph: { high: 8.0, low: 6.0 }, 
-  oxygen: { high: 10, low: 2 }, 
+  temp: { high: 28, critical: 35 },
+  ph: { high: 8.0, low: 6.0 },
+  oxygen: { high: 10, low: 2 },
   ammonia: { normal: 0, low: 0.1, high: 0.25 },
 };
 
 const fishEffects = {
   remove: (fishElements) => {
-    fishElements.forEach(fish => {
+    fishElements.forEach((fish) => {
       if (fish.dataset.health === "healthy") {
-        fishHealth.healthyFish--;  // Only decrement if the fish is marked healthy
+        fishHealth.healthyFish--; // Only decrement if the fish is marked healthy
       } else if (fish.dataset.health === "unhealthy") {
-        fishHealth.unhealthyFish--;  // Only decrement if the fish is marked unhealthy
+        fishHealth.unhealthyFish--; // Only decrement if the fish is marked unhealthy
       }
-    
-       // Increment dead fish count
-    fishHealth.deadFishCount++; // Update dead fish count
-    document.querySelector("#dead-fish-count").textContent = fishHealth.deadFishCount; 
+
+      // Increment dead fish count
+      fishHealth.deadFishCount++; // Update dead fish count
+      document.querySelector("#dead-fish-count").textContent =
+        fishHealth.deadFishCount;
 
       fish.style.opacity = 0;
       fish.remove();
     });
   },
-  
+
   unhealthy: (fishElements, filter = "grayscale(80%)") => {
-    fishElements.forEach(fish => {
+    fishElements.forEach((fish) => {
       // Only mark the fish unhealthy if it's currently healthy
       if (fish.dataset.health === "healthy") {
         fish.style.filter = filter;
-        fish.dataset.health = "unhealthy";  // Mark fish as unhealthy
+        fish.dataset.health = "unhealthy"; // Mark fish as unhealthy
         fishHealth.unhealthyFish++;
         fishHealth.healthyFish--;
       }
     });
   },
-  
+
   healthy: (fishElements) => {
-    fishElements.forEach(fish => {
+    fishElements.forEach((fish) => {
       // Only mark the fish healthy if it's currently unhealthy
       if (fish.dataset.health === "unhealthy") {
         fish.style.filter = "none";
-        fish.dataset.health = "healthy";  // Reset fish as healthy
+        fish.dataset.health = "healthy"; // Reset fish as healthy
         fishHealth.healthyFish++;
         fishHealth.unhealthyFish--;
       }
     });
-  }
+  },
 };
 
 // Centralized logger for water conditions
-function logWaterCondition(param, level, unit = '') {
+function logWaterCondition(param, level, unit = "") {
   let messageType;
 
   // Determine the message classification based on the level
   switch (level) {
-    case 'too high':
-    case 'high':
-    case 'out of range':
-      messageType = 'error'; // Critical condition
+    case "too high":
+    case "high":
+    case "out of range":
+      messageType = "error"; // Critical condition
       break;
-    case 'low':
-      messageType = 'warning'; // Warning condition
+    case "low":
+      messageType = "warning"; // Warning condition
       break;
-    case 'normal':
-      messageType = 'info'; // Informational message
+    case "normal":
+      messageType = "info"; // Informational message
       break;
     default:
-      messageType = 'info'; // Default to info if no specific classification
+      messageType = "info"; // Default to info if no specific classification
   }
 
-  logMessage(`${param} level is ${level} ${unit}`, messageType);
+  logMessage(`${param} is ${level} ${unit}`, messageType);
 }
-
 
 // Helper function to determine the condition for each parameter
 function getCondition(value, thresholds) {
-  if (value >= thresholds.critical) return 'critical';
-  if (value >= thresholds.high) return 'high';
-  if (value <= thresholds.low) return 'low';
-  return 'normal';
+  if (value >= thresholds.critical) return "critical";
+  if (value >= thresholds.high) return "high";
+  if (value <= thresholds.low) return "low";
+  return "normal";
 }
 
 // For ammonia
 function getAmmoniaCondition(value, thresholds) {
-  const tolerance = 0.00; // Define a small tolerance for normal level
+  const tolerance = 0.0; // Define a small tolerance for normal level
 
   // Dangerous if ammonia is higher than the high threshold
   if (value >= thresholds.high) {
-    return 'high';
+    return "high";
   }
 
   // Warning zone if ammonia is between low and high
   if (value > thresholds.low && value < thresholds.high) {
-    return 'low';
+    return "low";
   }
 
   // Normal if the ammonia level is approximately equal to normal
   if (Math.abs(value - thresholds.normal) <= tolerance) {
-    return 'normal';
+    return "normal";
   }
 
   // Return 'normal' if no other condition matches
-  return 'normal';
+  return "normal";
 }
 
 //Function to check water conditions and apply effects on fish
@@ -302,55 +384,74 @@ function checkWaterParameters() {
 
   // Check temperature condition
   switch (getCondition(temperature, waterThresholds.temp)) {
-    case 'critical':
+    case "critical":
       fishElementsToRemove.push(...fishElements);
-      logWaterCondition('Temperature', 'too high', `${temperature}°C`, 'error'); // Assuming logWaterCondition handles classification
-      logMessage("Fish are dying because the temperature is at a critical level!", 'error');
+      logWaterCondition("Temperature", "too high", `${temperature}°C`, "error"); // Assuming logWaterCondition handles classification
+      logMessage(
+        "Fish are dying because the temperature is at a critical level!",
+        "error"
+      );
       break;
-    case 'high':
+    case "high":
       fishElementsToUnhealthy.push(...fishElements);
-      logWaterCondition('Temperature', 'high', `${temperature}°C`, 'error');
+      logWaterCondition("Temperature", "high", `${temperature}°C`, "error");
       break;
-    case 'normal':
-      logWaterCondition('Temperature', 'normal', `${temperature}°C`, 'info');
+    case "normal":
+      logWaterCondition("Temperature", "normal", `${temperature}°C`, "info");
       break;
   }
 
   // Check pH condition
   const pHCondition = getCondition(pHLevel, waterThresholds.ph);
-  if (pHCondition === 'low' || pHCondition === 'high') {
+  if (pHCondition === "low" || pHCondition === "high") {
     fishElementsToRemove.push(...fishElements);
-    logWaterCondition('pH Level', 'abnormal', pHLevel, 'info');
-    logMessage("Fish are dying due to an abnormal pH Level!", 'error');
+    logWaterCondition("pH Level", "abnormal", pHLevel, "info");
+    logMessage("Fish are dying due to an abnormal pH Level!", "error");
   } else {
-    logWaterCondition('pH Level', 'normal', pHLevel);
+    logWaterCondition("pH Level", "normal", pHLevel);
   }
 
   // Check oxygen condition
   const oxygenCondition = getCondition(oxygenLevel, waterThresholds.oxygen);
-  if (oxygenCondition === 'low' || oxygenCondition === 'high') {
+  if (oxygenCondition === "low" || oxygenCondition === "high") {
     fishElementsToRemove.push(...fishElements);
-    logWaterCondition('Oxygen Level', 'abnormal', `${oxygenLevel} mg/L`, 'warning');
-    logMessage("Fish are dying due to abnormal oxygen levels!", 'error');
+    logWaterCondition(
+      "Oxygen Level",
+      "abnormal",
+      `${oxygenLevel} mg/L`,
+      "warning"
+    );
+    logMessage("Fish are dying due to abnormal oxygen levels!", "error");
   } else {
-    logWaterCondition('Oxygen Level', 'normal', `${oxygenLevel} mg/L`);
+    logWaterCondition("Oxygen Level", "normal", `${oxygenLevel} mg/L`);
   }
 
   // Check ammonia condition
   switch (getAmmoniaCondition(ammoniaLevel, waterThresholds.ammonia)) {
-    case 'high':
+    case "high":
       fishElementsToRemove.push(...fishElements);
-      logWaterCondition('Ammonia Level', 'dangerously high', `${ammoniaLevel} mg/L`);
-      logMessage("Fish are dying due to dangerously high ammonia levels!", 'error');
+      logWaterCondition(
+        "Ammonia Level",
+        "dangerously high",
+        `${ammoniaLevel} mg/L`
+      );
+      logMessage(
+        "Fish are dying due to dangerously high ammonia levels!",
+        "error"
+      );
       break;
 
-    case 'low':
+    case "low":
       fishElementsToUnhealthy.push(...fishElements);
-      logWaterCondition('Ammonia Level', 'in the warning zone', `${ammoniaLevel} mg/L`);
+      logWaterCondition(
+        "Ammonia Level",
+        "in the warning zone",
+        `${ammoniaLevel} mg/L`
+      );
       break;
 
-    case 'normal':
-      logWaterCondition('Ammonia Level', 'normal', `${ammoniaLevel} mg/L`);
+    case "normal":
+      logWaterCondition("Ammonia Level", "normal", `${ammoniaLevel} mg/L`);
       break;
   }
 
@@ -363,9 +464,15 @@ function checkWaterParameters() {
   }
 
   // If no fish were removed or marked unhealthy, apply healthy effect
-  if (fishElementsToRemove.length === 0 && fishElementsToUnhealthy.length === 0) {
+  if (
+    fishElementsToRemove.length === 0 &&
+    fishElementsToUnhealthy.length === 0
+  ) {
     fishEffects.healthy(fishElements);
-    logMessage("All fish are healthy as all water parameters are normal.", 'info');
+    logMessage(
+      "All fish are healthy as all water parameters are normal.",
+      "info"
+    );
   }
 
   // Update the fish counter display
@@ -376,7 +483,7 @@ function checkWaterParameters() {
 function addFish(fishCount) {
   // Check if adding the new fish will exceed the limit
   const currentFishCount = fishHealth.healthyFish + fishHealth.unhealthyFish;
-  
+
   if (currentFishCount + fishCount > maxFishCount) {
     const fishToAdd = maxFishCount - currentFishCount;
     if (fishToAdd > 0) {
@@ -384,16 +491,22 @@ function addFish(fishCount) {
       for (let i = 0; i < fishToAdd; i++) {
         createFish();
       }
-      logMessage(`${fishToAdd} fish added! Maximum of ${maxFishCount} fish reached.`);
+      logMessage(
+        `${fishToAdd} fish added! Maximum of ${maxFishCount} fish reached.`
+      );
     } else {
-      logMessage(`Cannot add more fish. Maximum limit of ${maxFishCount} fish reached.`);
+      logMessage(
+        `Cannot add more fish. Maximum limit of ${maxFishCount} fish reached.`
+      );
     }
   } else {
     // Add fish normally if the limit isn't exceeded
     for (let i = 0; i < fishCount; i++) {
       createFish();
     }
-    logMessage(`${fishCount} fish added! Current fish count: ${fishHealth.healthyFish}`);
+    logMessage(
+      `${fishCount} fish added! Current fish count: ${fishHealth.healthyFish}`
+    );
   }
   updateFishCounter();
 }
@@ -421,8 +534,7 @@ function updateFishCounter() {
     fishHealth.healthyFish;
   document.querySelector("#unhealthy-fish-count").textContent =
     fishHealth.unhealthyFish;
-    document.querySelector("#fish-max-count").textContent =
-    maxFishCount;
+  document.querySelector("#fish-max-count").textContent = maxFishCount;
   document.querySelector("#dead-fish-count").textContent =
     fishHealth.deadFishCount;
 }
@@ -432,7 +544,7 @@ function fishStatus() {
     fishHealth.healthyFish = Math.max(0, fishHealth.healthyFish - 1); // Ensure it doesn't go negative
     fishHealth.unhealthyFish++;
     updateFishCounter();
-    logMessage("A fish became unhealthy! Current count:", fishHealth, 'error');
+    logMessage("A fish became unhealthy! Current count:", fishHealth, "error");
   }
 }
 
@@ -448,12 +560,12 @@ function removeFish() {
     //get the last fish
     const fishToRemove = fishArray[fishArray.length - 1];
 
-  // check the health status of the fish to update counts
-  if (fishToRemove.dataset.health === "healthy") {
-    fishHealth.healthyFish = Math.max(0, fishHealth.healthyFish - 1); // Ensure it doesn't go negative
-  } else {
-    fishHealth.unhealthyFish = Math.max(0, fishHealth.unhealthyFish - 1); // Ensure it doesn't go negative
-  }
+    // check the health status of the fish to update counts
+    if (fishToRemove.dataset.health === "healthy") {
+      fishHealth.healthyFish = Math.max(0, fishHealth.healthyFish - 1); // Ensure it doesn't go negative
+    } else {
+      fishHealth.unhealthyFish = Math.max(0, fishHealth.unhealthyFish - 1); // Ensure it doesn't go negative
+    }
 
     //remove the fish from the pond
     pond.removeChild(fishToRemove);
@@ -461,9 +573,9 @@ function removeFish() {
     //update the fish counter
     updateFishCounter();
 
-    logMessage("Fish removed! Current fish count:", fishHealth, 'info');
+    logMessage("Fish removed! Current fish count:", fishHealth, "info");
   } else {
-    logMessage("No fish to remove.", 'info');
+    logMessage("No fish to remove.", "info");
   }
 }
 
@@ -496,23 +608,21 @@ function logMessage(message, type) {
 
   // Assign class based on message type
   newMessage.classList.add(type); // Assuming type is already a class like 'info', 'warning', 'error'
-  
+
   consoleDiv.appendChild(newMessage);
 
   // Limit number of messages displayed
-  if (consoleDiv.childNodes.length > 20) { // Adjust number as needed
+  if (consoleDiv.childNodes.length > 20) {
+    // Adjust number as needed
     consoleDiv.removeChild(consoleDiv.firstChild);
   }
 
   consoleDiv.scrollTop = consoleDiv.scrollHeight; // Auto-scroll to latest message
 }
 
-
 // logMessage('System initialized.', 'info'); // For info messages
 // logMessage('Warning: pH level is approaching the danger zone!', 'warning'); // For warnings
 // logMessage('Error: Unable to connect to the sensor!', 'error'); // For errors
-
-
 
 // Function to handle fish health based on water parameters
 function updateFishHealth(temperature, pH, oxygen, ammonia) {
@@ -522,62 +632,80 @@ function updateFishHealth(temperature, pH, oxygen, ammonia) {
 
   // Temperature check
   switch (getCondition(temperature, waterThresholds.temp)) {
-    case 'critical':
+    case "critical":
       fishElementsToRemove.push(...fishElements);
-      logMessage(`Temperature too high (${temperature}°C) - Fish are dying!`, 'error');
+      logMessage(
+        `Temperature too high (${temperature}°C) - Fish are dying!`,
+        "error"
+      );
       break;
-    case 'high':
+    case "high":
       fishElementsToUnhealthy.push(...fishElements);
-      logMessage(`Temperature is high (${temperature}°C) - Fish are at risk!`, 'error');
+      logMessage(
+        `Temperature is high (${temperature}°C) - Fish are at risk!`,
+        "error"
+      );
       break;
     default:
-      logMessage(`Temperature is normal (${temperature}°C).`, 'info');
+      logMessage(`Temperature is normal (${temperature}°C).`, "info");
       break;
   }
 
   // pH check
   switch (getCondition(pH, waterThresholds.ph)) {
-    case 'critical':
+    case "critical":
       fishElementsToRemove.push(...fishElements);
-      logMessage(`pH level critical (${pH}) - Fish are dying!`, 'error');
+      logMessage(`pH level critical (${pH}) - Fish are dying!`, "error");
       break;
-    case 'high':
-    case 'low':
+    case "high":
+    case "low":
       fishElementsToUnhealthy.push(...fishElements);
-      logMessage(`pH level is abnormal (${pH}) - Fish are at risk!`, 'warning');
+      logMessage(`pH level is abnormal (${pH}) - Fish are at risk!`, "warning");
       break;
     default:
-      logMessage(`pH level is normal (${pH}).`, 'info');
+      logMessage(`pH level is normal (${pH}).`, "info");
       break;
   }
 
   // Oxygen check
   switch (getCondition(oxygen, waterThresholds.oxygen)) {
-    case 'critical':
+    case "critical":
       fishElementsToRemove.push(...fishElements);
-      logMessage(`Oxygen level critical (${oxygen} mg/L) - Fish are dying!`, 'error');
+      logMessage(
+        `Oxygen level critical (${oxygen} mg/L) - Fish are dying!`,
+        "error"
+      );
       break;
-    case 'low':
+    case "low":
       fishElementsToUnhealthy.push(...fishElements);
-      logMessage(`Oxygen level low (${oxygen} mg/L) - Fish are at risk!`, 'warning');
+      logMessage(
+        `Oxygen level low (${oxygen} mg/L) - Fish are at risk!`,
+        "warning"
+      );
       break;
     default:
-      logMessage(`Oxygen level is normal (${oxygen} mg/L)...`, 'info');
+      logMessage(`Oxygen level is normal (${oxygen} mg/L)...`, "info");
       break;
   }
 
   // Ammonia check
   switch (getAmmoniaCondition(ammonia, waterThresholds.ammonia)) {
-    case 'high':
+    case "high":
       fishElementsToRemove.push(...fishElements);
-      logMessage(`Ammonia level dangerously high (${ammonia} mg/L) - Fish are dying!`, 'error');
+      logMessage(
+        `Ammonia level dangerously high (${ammonia} mg/L) - Fish are dying!`,
+        "error"
+      );
       break;
-    case 'low':
+    case "low":
       fishElementsToUnhealthy.push(...fishElements);
-      logMessage(`Ammonia level in the warning zone (${ammonia} mg/L) - Fish are at risk!`, 'warning');
+      logMessage(
+        `Ammonia level in the warning zone (${ammonia} mg/L) - Fish are at risk!`,
+        "warning"
+      );
       break;
     default:
-      logMessage(`Ammonia level is normal (${ammonia} mg/L).`, 'info');
+      logMessage(`Ammonia level is normal (${ammonia} mg/L).`, "info");
       break;
   }
 
@@ -588,18 +716,34 @@ function updateFishHealth(temperature, pH, oxygen, ammonia) {
   if (fishElementsToUnhealthy.length > 0) {
     fishEffects.unhealthy(fishElementsToUnhealthy);
   }
-  
+
   // Update fish counter after changes
   updateFishCounter();
 }
 
-// Call the function in the main update loop
+// // Call the function in the main update loop
+// setInterval(() => {
+//   const waterParameters = updateWaterParameters();
+//   checkWaterParameters(); // This should call `updateFishHealth` internally
+//   updateFishHealth(
+//     waterParameters.getTemperature(),
+//     waterParameters.getPHLevel(),
+//     waterParameters.getOxygenLevel(),
+//     waterParameters.getAmmoniaLevel()
+//   );
+// }, 10000); // Update every 10 seconds
+
+// Main update loop to check parameters based on time
 setInterval(() => {
   const waterParameters = updateWaterParameters();
-  checkWaterParameters(); // This should call `updateFishHealth` internally
-  updateFishHealth(waterParameters.getTemperature(), waterParameters.getPHLevel(), waterParameters.getOxygenLevel(), waterParameters.getAmmoniaLevel());
-}, 10000); // Update every 10 seconds
-
+  checkWaterParameters(); // Check and update fish health
+  updateFishHealth(
+      waterParameters.getTemperature(),
+      waterParameters.getPHLevel(),
+      waterParameters.getOxygenLevel(),
+      waterParameters.getAmmoniaLevel()
+  );
+}, 3600000); // Update every hour (or adjust as needed)
 
 // Example usage of the logMessage function for other user interactions
 // function handleUserInput(fishCount) {
