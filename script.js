@@ -528,6 +528,11 @@ function createFish() {
   fishHealth.healthyFish += 1;
 }
 
+// feed fish
+
+
+
+
 // fish counter
 function updateFishCounter() {
   document.querySelector("#healthy-fish-count").textContent =
@@ -743,7 +748,7 @@ setInterval(() => {
       waterParameters.getOxygenLevel(),
       waterParameters.getAmmoniaLevel()
   );
-}, 3600000); // Update every hour (or adjust as needed)
+}, 1000000); // 3600000 Update every hour (or adjust as needed)
 
 // Example usage of the logMessage function for other user interactions
 // function handleUserInput(fishCount) {
