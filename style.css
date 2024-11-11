@@ -91,6 +91,17 @@ main {
     animation: swimRight 10s linear infinite;
 }
 
+.food {
+    width: 10px;
+    height: 10px;
+    position: absolute;
+    background-color: #ff6347; /* Food color */
+    border-radius: 50%;
+    opacity: 0.8;
+    transition: all 2s ease;
+  }
+  
+
 /* Fish swimming animation (Left to Right) */
 @keyframes swimRight {
     0% {
