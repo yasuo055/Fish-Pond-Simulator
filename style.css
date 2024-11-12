@@ -287,10 +287,22 @@ label {
     color: #000;
 }
 
-
-
-
 /* Console */
+
+.btn-con {
+    display: flex;
+    justify-content: center;
+}
+
+.btn-toggle-console {
+    padding: 12px;
+    margin: 4px;
+    color: #fff;
+    background-color: rgb(16, 155, 215);
+    border:0px none;
+    border-radius: 4px;
+}
+
 .console {
     display: none;
     font-family: 'Courier New', monospace;
@@ -303,20 +315,6 @@ label {
     margin: 20px auto;
     border-radius: 10px;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
-}
-
-.btn-con {
-    display: flex;
-    justify-content: center;
-}
-
-.btn-toggle-console {
-    padding: 12px;
-    margin: 12px;
-    color: #fff;
-    background-color: rgb(16, 155, 215);
-    border:0px none;
-    border-radius: 4px;
 }
 
 #messages {

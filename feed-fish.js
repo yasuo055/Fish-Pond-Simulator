@@ -27,7 +27,7 @@
 //     }, 3000); // Remove after 3 seconds (animation time)
 //   }
 
-//   // Event listener for feed button
+  // Event listener for feed button
 //   feedButton.addEventListener("click", createFood);
 // });
 
@@ -70,16 +70,96 @@ document.addEventListener("DOMContentLoaded", () => {
   feedButton.addEventListener("click", createFood);
 });
 
-// Function to update the ammonia level after feeding
-function updateAmmoniaLevel() {
-  const ammoniaLevelElement = document.getElementById("ammonia-value"); // Assuming you have a display element for ammonia
-  const currentAmmonia = parseFloat(ammoniaLevelElement.textContent) || 0;
-  const newAmmonia = Math.min(currentAmmonia + 0.5, 10); // Increases ammonia by 0.5, max limit of 10
+// document.addEventListener("DOMContentLoaded", () => {
+//   const feedButton = document.getElementById("feed-fish-btn");
+//   const pondContainer = document.getElementById("pond-container");
 
-  // Update the ammonia level display
-  ammoniaLevelElement.textContent = newAmmonia.toFixed(1); // Update with 1 decimal place
+//   // Initial ammonia level and waste-related variables
+//   let ammoniaLevel = 0;
+//   let fishWasteAccumulation = 0;
+//   let beneficialBacteriaActivity = 0.0005; // Activity rate for ammonia reduction by bacteria
 
-  // Optionally, log the ammonia level
-  logMessage(`Ammonia level increased to ${newAmmonia} mg/L.`, "info");
-}
+//   // Function to create food particles
+//   function createFood() {
+//     // Create a new food particle
+//     let foodParticle = document.createElement("div");
+//     foodParticle.classList.add("food");
+
+//     // Randomize position within the pond
+//     foodParticle.style.top = `${Math.random() * 80 + 10}%`;
+//     foodParticle.style.left = `${Math.random() * 80 + 10}%`;
+
+//     // Add food to the pond container
+//     pondContainer.appendChild(foodParticle);
+
+//     // Animate food particle to sink slowly
+//     setTimeout(() => {
+//       foodParticle.style.transform = "translateY(60px)";
+//       foodParticle.style.opacity = "0";
+//     }, 50);
+
+//     // Remove food particle after 3 seconds
+//     setTimeout(() => {
+//       foodParticle.remove();
+//     }, 3000);
+
+//     // Log message and increase ammonia level based on feeding
+//     logMessage("Fish have been fed! Ammonia level increased.", "info");
+//     increaseAmmoniaLevel(0.001); // Base increase from feeding
+
+//     // Increase fish waste and bacteria processing
+//     fishWasteAccumulation += 0.001; // Accumulated waste
+//     updateAmmoniaLevel();
+//     animateWasteParticles();
+//   }
+
+//   // Function to update ammonia level considering waste accumulation and bacteria
+//   function updateAmmoniaLevel() {
+//     // Calculate additional ammonia increase based on waste accumulation
+//     let totalAmmoniaIncrease = 0.001 + fishWasteAccumulation;
+//     ammoniaLevel += totalAmmoniaIncrease;
+
+//     // Reduce ammonia slightly based on bacteria activity
+//     ammoniaLevel -= beneficialBacteriaActivity * ammoniaLevel;
+//     logMessage(`Current ammonia level: ${ammoniaLevel.toFixed(4)}`, "info");
+
+//     // Check if ammonia level exceeds threshold (example threshold 0.02 for warnings)
+//     if (ammoniaLevel >= 0.02) {
+//       logMessage("Warning: Ammonia level is high due to waste accumulation!", "warning");
+//     }
+//   }
+
+//   // Function to animate waste particles gathering at the pond bottom
+//   function animateWasteParticles() {
+//     let wasteParticle = document.createElement("div");
+//     wasteParticle.classList.add("waste");
+
+//     // Randomize starting position in the pond
+//     wasteParticle.style.top = `${Math.random() * 60 + 10}%`;
+//     wasteParticle.style.left = `${Math.random() * 80 + 10}%`;
+
+//     // Add waste to the pond
+//     pondContainer.appendChild(wasteParticle);
+
+//     // Animate waste particles gathering at the bottom
+//     setTimeout(() => {
+//       wasteParticle.style.transform = "translateY(250px) scale(0.8)";
+//       wasteParticle.style.opacity = "1";
+//     }, 100);
+
+//     // Remove waste particles after they reach the bottom to keep pond clean
+//     setTimeout(() => {
+//       wasteParticle.remove();
+//     }, 5000); // Adjust time as needed
+//   }
+
+//   // Function to increase ammonia level
+//   function increaseAmmoniaLevel(baseIncrease) {
+//     ammoniaLevel += baseIncrease;
+//     updateFishHealth(); // Apply effects based on new ammonia level
+//   }
+
+//   // Event listener for feed button
+//   feedButton.addEventListener("click", createFood);
+// });
 
