@@ -7,9 +7,9 @@ let fishHealth = {
 // Event listener
 document.querySelector("#add-fish").addEventListener("click", addFish);
 document.querySelector("#remove-fish").addEventListener("click", removeFish);
-// document
-//   .querySelector("#clear-fish-pond")
-//   .addEventListener("click", clearFishPond);
+document
+  .querySelector("#clear-fish-pond")
+  .addEventListener("click", clearFishPond);
 // document
 //   .querySelector("#pause-start")
 //   .addEventListener("click", toggleAnimation);
@@ -748,7 +748,7 @@ setInterval(() => {
       waterParameters.getOxygenLevel(),
       waterParameters.getAmmoniaLevel()
   );
-}, 1000000); // 3600000 Update every hour (or adjust as needed)
+}, 10000); // 10 seconds or 3600000 Update every hour (or adjust as needed)
 
 // Example usage of the logMessage function for other user interactions
 // function handleUserInput(fishCount) {
@@ -760,25 +760,22 @@ setInterval(() => {
 //   // Additional code to initialize fish...
 // }
 
-// function clearFishPond() {
-//   const pond = document.querySelector(".pond");
+function clearFishPond() {
+  const pond = document.querySelector(".pond");
 
-//   while (pond.firstChild) {
-//     pond.removeChild(pond.firstChild);
-//   }
+  while (pond.firstChild) {
+    pond.removeChild(pond.firstChild);
+  }
 
-//   //reset fish health counts
-//   fishHealth.healthyFish = 0;
-//   fishHealth.unhealthyFish = 0;
+  //reset fish health counts
+  fishHealth.healthyFish = 0;
+  fishHealth.unhealthyFish = 0;
 
-//   // update the fish counter
-//   updateFishCounter();
+  // update the fish counter
+  updateFishCounter();
 
-//   logMessage(
-//     "The fish pond has been cleared. Current fish count:",
-//     fishHealth
-//   );
-// }
+  logMessage("All fish have been removed.");
+}
 
 // // pause and resume animation
 // let isAnimationPaused = false;
