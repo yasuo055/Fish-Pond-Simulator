@@ -8,14 +8,18 @@
 </head>
 <body>
 
-    <h1>Fish Pond Simulator</h1>
+   
+    <div class="header">
+        <h2>Logo</h2>
+        <h1>Fish Pond Simulator</h1>
+        <div id="date-time-display"></div>
+    </div>
     
     <main>
         
         <div class="status">
 
             <h2>Status</h2>
-
             <div class="fish-counter">
                 <h3>Fish Counter</h3>
                 <P>Max Fish: <span id="fish-max-count">0</span></P>
@@ -32,7 +36,7 @@
 
         </div>
 
-        <div class="pond"></div>
+        <div class="pond" id="pond-container"></div>
         <div class="controls">
             
         <h2>Controls</h2>
@@ -41,7 +45,8 @@
                 
                 <input type="number" id="fish-count-input" placeholder="Enter number of fish" min="1" value="1">
                 <button id="add-fish">Add Fish</button>
-                <button>Feed Fish</button>
+                <button id="clear-fish-pond">Reset</button>
+                <!-- <button id="feed-fish-btn">Feed Fish</button> -->
                 <button id="remove-fish">Remove Fish</button>
 
                 <div class="water-param">
@@ -56,11 +61,10 @@
                         <label for="oxygen-slider">Dissolved Oxygen: <span id="oxygen-display">5 mg/L</span></label>
                         <input type="range" id="oxygen-slider" min="2" max="10" step="0.1" value="5">
 
-                        <label for="ammonia-slider">Ammonia Level:  <span id="ammonia-display">0.10 ppm</span></label>
+                        <label for="ammonia-slider">Ammonia Level: <span id="ammonia-display">0.10 ppm</span></label>
                         <input type="range" id="ammonia-slider" min="0.00" max="0.30" step="0.01" value="0">
                     </div>
                 </div>
-
 
                 <!-- <button>Adjust pH</button>
                 <button>Adjust Temperature</button>
@@ -68,7 +72,6 @@
                 <button>Check Fish Health</button>
                 <button>Start Simulation</button>
                 <button id="pause-start">Pause</button>
-                <button id="clear-fish-pond">Reset</button>
                 <button>Settings</button> -->
             </div>
             
@@ -106,5 +109,6 @@
     <!-- script -->
      <script src="script.js"></script>
      <script src="scriptforconsole.js"></script>
+     <script src="feed-fish.js"></script>
 </body>
 </html>

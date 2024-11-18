@@ -91,6 +91,17 @@ main {
     animation: swimRight 10s linear infinite;
 }
 
+.food {
+    width: 10px;
+    height: 10px;
+    position: absolute;
+    background-color: #ff6347; /* Food color */
+    border-radius: 50%;
+    opacity: 0.8;
+    transition: all 2s ease;
+  }
+  
+
 /* Fish swimming animation (Left to Right) */
 @keyframes swimRight {
     0% {
@@ -220,44 +231,46 @@ label {
     font-size: 14px;
 }
 
-/* modal */
-
-/* .modal {
-    display: none;
-    position: fixed;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
-    justify-content: center;
-    align-items: center;
-  } */
-
-
-/* Styling for the fish icons inside of the modal */
-#fish-icon-selection {
+/* date-time */
+.header {
     display: flex;
-    gap: 20px;
-}
-
-.icon-option {
-    width: 50px;
-    height: 50px;
-    cursor: pointer;
-}
-
-#fish-icon-selection label {
-    display: flex;
-    flex-direction: column;
+    justify-content: space-evenly;
     align-items: center;
+    padding: 12px;
+    margin: 4px;
 }
 
-/* toggle button */
+.header h1 {
+    flex-grow: 1;
+    text-align: center;
+    margin: 0;
+}
 
+.header h2 {
+    margin: 0;
+}
 
+#date-time-display {
+    text-align: right;
+    color: #000;
+}
 
 /* Console */
+
+.btn-con {
+    display: flex;
+    justify-content: center;
+}
+
+.btn-toggle-console {
+    padding: 12px;
+    margin: 4px;
+    color: #fff;
+    background-color: rgb(16, 155, 215);
+    border:0px none;
+    border-radius: 4px;
+}
+
 .console {
     display: none;
     font-family: 'Courier New', monospace;
@@ -270,20 +283,6 @@ label {
     margin: 20px auto;
     border-radius: 10px;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
-}
-
-.btn-con {
-    display: flex;
-    justify-content: center;
-}
-
-.btn-toggle-console {
-    padding: 12px;
-    margin: 12px;
-    color: #fff;
-    background-color: rgb(16, 155, 215);
-    border:0px none;
-    border-radius: 4px;
 }
 
 #messages {
